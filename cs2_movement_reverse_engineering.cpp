@@ -2163,11 +2163,11 @@ struct CMoveData
 	// Variables from the player edict (sv_player) or entvars on the client.
 	// These are copied in here before calling and copied out after calling.
 	*/
-	uint8_t moveDataFlags;
+	uint8_t moveDataFlags; // 0x0
 	CHandle	m_nPlayerHandle; // 0x4 don't know if this is actually a CHandle
 	uint8_t unknown1[0xC];
 	Vector m_vecViewAngles; // 0x14
-	float m_flForwardMove; // 0x20
+	float m_flForwardMove; // 0x20	
 	float m_flSideMove; // 0x24
 	float m_flUpMove; // 0x28
 	uint8_t unknown2[4]; // 0x2c
@@ -2198,7 +2198,10 @@ struct CMoveData
 	uint8_t unknown4[0x18];
 	Vector m_vecOldAngles; // 0xbc
 	float m_flMaxSpeed; // 0xc8
-	uint8_t unknown5[0x8];
+	float m_flClientMaxSpeed; // 0xcc
+	bool m_bJumpedThisTick; // 0xd0 related to dev_cs_enable_consistent_jumps
+	bool m_bSomethingWithGravity; // 0xd1 related to the new ShouldApplyGravity
+	uint8_t unknown5[0x2];
 	Vector m_outWishVel; // 0xd4
 };
 
