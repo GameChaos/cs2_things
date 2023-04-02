@@ -1,7 +1,7 @@
 
 // most things taken from: https://github.com/neverlosecc/source2sdk/tree/cs2
 
-#include <stdint.h>
+// #include <stdint.h>
 #pragma pack(8)
 
 // Alignment: 4
@@ -423,10 +423,23 @@ class CCSPlayerPawn;
 class CPlayerPawnComponent
 {
 public:
-	void *vtable;
-	CNetworkVarChainer __m_pChainEntity; 	// 0x8
+	virtual int64_t *Unk0();
+	virtual CPlayerPawnComponent *Unk1(char a2);
+	virtual void MergedNullSub2();
+	virtual int64_t Unk3();
+	virtual int64_t Unk4();
+	virtual void MergedNullSub5();
+	virtual int64_t Unk6();
+	virtual int64_t Unk7();
+	virtual char Unk8();
+	virtual char Unk9();
+	virtual int64_t Unk10();
+	virtual void MergedNullSub11();
+	virtual void MergedNullSub12();
+	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
-	CCSPlayerPawn *pawn;
+	CNetworkVarChainer __m_pChainEntity; // 0x8
+	CCSPlayerPawn *pawn; // 0x30
 	uint8_t unknown0[6];
 };
 
@@ -435,6 +448,36 @@ public:
 class CPlayer_MovementServices : CPlayerPawnComponent
 {
 public:
+	virtual int64_t *Unk0();
+	virtual CPlayerPawnComponent *Unk1(char a2);
+	// virtual void MergedNullSub2();
+	virtual int64_t Unk3();
+	virtual int64_t Unk4();
+	// virtual void MergedNullSub5();
+	virtual int64_t Unk6();
+	// virtual int64_t Unk7();
+	// virtual char Unk8();
+	// virtual char Unk9();
+	virtual int64_t Unk10();
+	// virtual void MergedNullSub11();
+	// virtual void MergedNullSub12();
+	virtual int32_t *Unk13(int32_t *outWorldGroupId);
+	
+	virtual int64_t Unk14(int64_t a2);
+	virtual int64_t Unk15(int64_t a2);
+	virtual void ProcessMovement(CMoveData *mv);
+	virtual int64_t Unk17(int64_t a2);
+	virtual bool ReturnOne18();
+	virtual void *Unk19();
+	virtual int64_t Unk20(int64_t a2, int64_t a3);
+	virtual int64_t Unk21(int64_t a2, int64_t a3);
+	virtual int64_t Unk22(int64_t a2);
+	virtual int64_t Unk23(int64_t a1);
+	virtual bool ReturnOne24();
+	virtual int64_t Unk25(double a2);
+	virtual bool ReturnZero26();
+	virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
+	
 	int32_t m_nImpulse; 	// 0x40
 	CInButtonState m_nButtons; 	// 0x48
 	uint64_t m_nQueuedButtonDownMask; 	// 0x68
@@ -458,6 +501,7 @@ public:
 	float m_flLeftMove; 	// 0x19c
 	float m_flUpMove; 	// 0x1a0
 	Vector m_vecOldViewAngles; 	// 0x1a4
+	uint8_t unknown[8];
 };
 
 // Alignment: 14
@@ -465,7 +509,48 @@ public:
 class CPlayer_MovementServices_Humanoid : CPlayer_MovementServices
 {
 public:
-	void *vtableCPlayer_MovementServices_Humanoid;
+	virtual int64_t *Unk0();
+	virtual CPlayerPawnComponent *Unk1(char a2);
+	// virtual void MergedNullSub2();
+	virtual int64_t Unk3();
+	// virtual int64_t Unk4();
+	// virtual void MergedNullSub5();
+	// virtual int64_t Unk6();
+	virtual int64_t Unk7();
+	virtual char Unk8();
+	virtual char Unk9();
+	virtual int64_t Unk10();
+	// virtual void MergedNullSub11();
+	// virtual void MergedNullSub12();
+	virtual int32_t *Unk13(int32_t *outWorldGroupId);
+	
+	// virtual int64_t Unk14(int64_t a2);
+	// virtual int64_t Unk15(int64_t a2);
+	// vvirtual void ProcessMovement(CMoveData *mv);
+	virtual int64_t Unk17(int64_t a2);
+	// virtual bool ReturnOne18();
+	// virtual void *Unk19();
+	// virtual int64_t Unk20(int64_t a2, int64_t a3);
+	// virtual int64_t Unk21(int64_t a2, int64_t a3);
+	// virtual int64_t Unk22(int64_t a2);
+	// virtual int64_t Unk23(int64_t a1);
+	virtual bool ReturnOne24();
+	// virtual int64_t Unk25(double a2);
+	// virtual bool ReturnZero26();
+	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
+	
+	virtual float Unk28();
+	virtual int64_t Unk29();
+	virtual void UnkNull30();
+	virtual int64_t Unk31();
+	virtual char Unk32(int64_t a2, int64_t a3, float *a4);
+	virtual float *Unk33(int64_t a2, int64_t a3, float a4);
+	virtual void Unk34(int *a2, int *a3);
+	virtual CCSPlayerPawn *Unk35(int a2, bool a3);
+	virtual int64_t Unk36();
+	virtual void UnkNull37();
+	virtual void UnkNull38();
+	
 	float m_flStepSoundTime; 	// 0x1b8
 	// MNetworkEnable
 	// MNetworkUserGroup "LocalPlayerExclusive"
@@ -508,6 +593,50 @@ public:
 class CCSPlayer_MovementServices : CPlayer_MovementServices_Humanoid
 {
 public:
+	virtual int64_t *Unk0();
+	virtual CPlayerPawnComponent *Unk1(char a2);
+	// virtual void MergedNullSub2();
+	virtual int64_t Unk3();
+	// virtual int64_t Unk4();
+	// virtual void MergedNullSub5();
+	// virtual int64_t Unk6();
+	// virtual int64_t Unk7();
+	// virtual char Unk8();
+	// virtual char Unk9();
+	// virtual int64_t Unk10();
+	// virtual void MergedNullSub11();
+	// virtual void MergedNullSub12();
+	virtual int32_t *Unk13(int32_t *outWorldGroupId);
+	
+	virtual int64_t Unk14(int64_t a2);
+	virtual int64_t Unk15(int64_t a2);
+	virtual void ProcessMovement(CMoveData *mv);
+	virtual int64_t Unk17(int64_t a2);
+	// virtual bool ReturnOne18();
+	virtual void *Unk19();
+	virtual int64_t Unk20(int64_t a2, int64_t a3);
+	virtual int64_t Unk21(int64_t a2, int64_t a3);
+	// virtual int64_t Unk22(int64_t a2);
+	virtual int64_t Unk23(int64_t a1);
+	// virtual bool ReturnOne24();
+	virtual int64_t Unk25(double a2);
+	// virtual bool ReturnZero26();
+	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
+	
+	virtual float Unk28();
+	// virtual int64_t Unk29();
+	// virtual void UnkNull30();
+	// virtual int64_t Unk31();
+	virtual char Unk32(int64_t a2, int64_t a3, float *a4);
+	// virtual float *Unk33(int64_t a2, int64_t a3, float a4);
+	// virtual void Unk34(int *a2, int *a3);
+	// virtual CCSPlayerPawn *Unk35(int a2, bool a3);
+	// virtual int64_t Unk36();
+	// virtual void UnkNull37();
+	// virtual void UnkNull38();
+	
+	virtual int64_t Unk39(int64_t a2, int64_t a3, float a4, char a5);
+	
 	// MNetworkEnable
 	float m_flMaxFallVelocity; 	// 0x208
 	// MNetworkEnable
