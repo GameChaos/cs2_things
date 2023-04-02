@@ -463,15 +463,15 @@ public:
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
 	virtual int64_t Unk14(int64_t a2);
-	virtual void PlayerRunCommand(int64_t ucmd);
+	virtual void PlayerRunCommand(void *ucmd);
 	virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
 	virtual bool ReturnOne18();
 	virtual void *ResetMoveData();
 	virtual int64_t SetupMove(void *ucmd, CMoveData *mv);
-	virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
-	virtual void SetPredictionRandomSeed(int64_t ucmd);
-	virtual int64_t Unk23(int64_t a1, int64_t a2);
+	virtual int64_t FinishMove(void *ucmd, CMoveData *mv);
+	virtual void SetPredictionRandomSeed(void *ucmd);
+	virtual int64_t Unk23(void *ucmd, int64_t a2);
 	virtual bool ReturnOne24();
 	virtual int64_t Unk25(double a2);
 	virtual bool ReturnZero26();
@@ -524,15 +524,15 @@ public:
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
 	// virtual int64_t Unk14(int64_t a2);
-	// virtual void PlayerRunCommand(int64_t ucmd);
+	// virtual void PlayerRunCommand(void *ucmd);
 	// virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
 	// virtual bool ReturnOne18();
 	// virtual void *ResetMoveData();
 	// virtual int64_t SetupMove(void *ucmd, CMoveData *mv);
-	// virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
-	// virtual void SetPredictionRandomSeed(int64_t ucmd);
-	// virtual int64_t Unk23(int64_t a1, int64_t a2);
+	// virtual int64_t FinishMove(void *ucmd, CMoveData *mv);
+	// virtual void SetPredictionRandomSeed(void *ucmd);
+	// virtual int64_t Unk23(void *ucmd, int64_t a2);
 	virtual bool ReturnOne24();
 	// virtual int64_t Unk25(double a2);
 	// virtual bool ReturnZero26();
@@ -608,15 +608,15 @@ public:
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
 	virtual int64_t Unk14(int64_t a2);
-	virtual void PlayerRunCommand(int64_t ucmd);
+	virtual void PlayerRunCommand(void *ucmd);
 	virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
 	// virtual bool ReturnOne18();
 	virtual void *ResetMoveData();
 	virtual int64_t SetupMove(void *ucmd, CMoveData *mv);
-	virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
-	// virtual void SetPredictionRandomSeed(int64_t ucmd);
-	virtual int64_t Unk23(int64_t a1, int64_t a2);
+	virtual int64_t FinishMove(void *ucmd, CMoveData *mv);
+	// virtual void SetPredictionRandomSeed(void *ucmd);
+	virtual int64_t Unk23(void *ucmd, int64_t a2);
 	// virtual bool ReturnOne24();
 	virtual int64_t Unk25(double a2);
 	// virtual bool ReturnZero26();
