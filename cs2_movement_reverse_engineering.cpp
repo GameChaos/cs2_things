@@ -364,9 +364,7 @@ struct Vector4D
 class CInButtonState
 {
 	virtual ~CInButtonState();
-	uint64_t m_pButtonState1;
-	uint64_t m_pButtonState2;
-	uint64_t m_pButtonState3;
+	uint64_t m_pButtonStates[3];
 };
 
 // Size: 0x4
