@@ -468,7 +468,7 @@ public:
 	virtual int64_t Unk17(int64_t a2);
 	virtual bool ReturnOne18();
 	virtual void *ResetMoveData();
-	virtual int64_t SetupMove(int64_t ucmd, CMoveData *mv);
+	virtual int64_t SetupMove(void *ucmd, CMoveData *mv);
 	virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
 	virtual void SetPredictionRandomSeed(int64_t ucmd);
 	virtual int64_t Unk23(int64_t a1, int64_t a2);
@@ -529,7 +529,7 @@ public:
 	virtual int64_t Unk17(int64_t a2);
 	// virtual bool ReturnOne18();
 	// virtual void *ResetMoveData();
-	// virtual int64_t SetupMove(int64_t ucmd, CMoveData *mv);
+	// virtual int64_t SetupMove(void *ucmd, CMoveData *mv);
 	// virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
 	// virtual void SetPredictionRandomSeed(int64_t ucmd);
 	// virtual int64_t Unk23(int64_t a1, int64_t a2);
@@ -613,7 +613,7 @@ public:
 	virtual int64_t Unk17(int64_t a2);
 	// virtual bool ReturnOne18();
 	virtual void *ResetMoveData();
-	virtual int64_t SetupMove(int64_t ucmd, CMoveData *mv);
+	virtual int64_t SetupMove(void *ucmd, CMoveData *mv);
 	virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
 	// virtual void SetPredictionRandomSeed(int64_t ucmd);
 	virtual int64_t Unk23(int64_t a1, int64_t a2);
