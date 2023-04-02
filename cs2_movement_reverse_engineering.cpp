@@ -368,21 +368,24 @@ enum WaterLevel_t : uint8_t
 	WL_Count = 0x5,
 };
 
-struct Vector2D
+class Vector2D
 {
+public:
 	float x;
 	float y;
 };
 
-struct Vector
+class Vector
 {
+public:
 	float x;
 	float y;
 	float z;
 };
 
-struct Vector4D
+class Vector4D
 {
+public:
 	float x;
 	float y;
 	float z;
@@ -397,26 +400,29 @@ public:
 };
 
 // Size: 0x4
-struct CUtlStringToken
+class CUtlStringToken
 {
+public:
 	uint32_t m_nHashCode;
 };
 
 // Alignment: 1
 // Size: 0x28
-struct CNetworkVarChainer
+class CNetworkVarChainer
 {
+public:
 	uint8_t unknown0[0x20];
 	int16_t m_PathIndex; 	// 0x20
 	uint8_t unknown1[6];
 };
 
-struct CCSPlayerPawn;
+class CCSPlayerPawn;
 
 // Alignment: 1
 // Size: 0x40
-struct CPlayerPawnComponent
+class CPlayerPawnComponent
 {
+public:
 	void *vtable;
 	CNetworkVarChainer __m_pChainEntity; 	// 0x8
 	
@@ -426,8 +432,9 @@ struct CPlayerPawnComponent
 
 // Alignment: 14
 // Size: 0x1b8
-struct CPlayer_MovementServices : CPlayerPawnComponent
+class CPlayer_MovementServices : CPlayerPawnComponent
 {
+public:
 	int32_t m_nImpulse; 	// 0x40
 	CInButtonState m_nButtons; 	// 0x48
 	uint64_t m_nQueuedButtonDownMask; 	// 0x68
@@ -455,8 +462,9 @@ struct CPlayer_MovementServices : CPlayerPawnComponent
 
 // Alignment: 14
 // Size: 0x208
-struct CPlayer_MovementServices_Humanoid : CPlayer_MovementServices
+class CPlayer_MovementServices_Humanoid : CPlayer_MovementServices
 {
+public:
 	void *vtableCPlayer_MovementServices_Humanoid;
 	float m_flStepSoundTime; 	// 0x1b8
 	// MNetworkEnable
@@ -497,8 +505,9 @@ struct CPlayer_MovementServices_Humanoid : CPlayer_MovementServices
 
 // Alignment: 35
 // Size: 0x13c0
-struct CCSPlayer_MovementServices : CPlayer_MovementServices_Humanoid
+class CCSPlayer_MovementServices : CPlayer_MovementServices_Humanoid
 {
+public:
 	// MNetworkEnable
 	float m_flMaxFallVelocity; 	// 0x208
 	// MNetworkEnable
@@ -562,30 +571,34 @@ struct CCSPlayer_MovementServices : CPlayer_MovementServices_Humanoid
 
 // Alignment: 0
 // Size: 0x78
-struct CCSPlayer_ParachuteServices //: public CPlayerPawnComponent
-{ 
+class CCSPlayer_ParachuteServices //: public CPlayerPawnComponent
+{
+public:
 	CPlayerPawnComponent pawnComponent;
 	uint8_t unknown[0x38];
 };
 
 // Alignment: 1
 // Size: 0x48
-struct CCSPlayer_BulletServices //: public CPlayerPawnComponent
-{ 
+class CCSPlayer_BulletServices //: public CPlayerPawnComponent
+{
+public:
 	CPlayerPawnComponent pawnComponent;
 	int32_t m_totalHitsOnServer; 	// 0x40
 	uint8_t unknown1[0x4];
 };
 
-struct CHandle
+class CHandle
 {
+public:
 	int32_t handle;
 };
 
 // Alignment: 2
 // Size: 0x50
-struct CCSPlayer_HostageServices //: public CPlayerPawnComponent
+class CCSPlayer_HostageServices //: public CPlayerPawnComponent
 {
+public:
 	CPlayerPawnComponent pawnComponent;
 	// MNetworkEnable
 	CHandle m_hCarriedHostage; 	// 0x40
@@ -596,8 +609,9 @@ struct CCSPlayer_HostageServices //: public CPlayerPawnComponent
 
 // Alignment: 1
 // Size: 0xc8
-struct CCSPlayer_BuyServices //: public CPlayerPawnComponent
-{ 
+class CCSPlayer_BuyServices //: public CPlayerPawnComponent
+{
+public:
 	CPlayerPawnComponent pawnComponent;
 	float m_flNextAutoBuyAmmoTime; 	// 0x40
 	uint8_t unknown1[0x84];
@@ -605,8 +619,9 @@ struct CCSPlayer_BuyServices //: public CPlayerPawnComponent
 
 // Alignment: 2
 // Size: 0x58
-struct CCSPlayer_PingServices //: public CPlayerPawnComponent
-{ 
+class CCSPlayer_PingServices //: public CPlayerPawnComponent
+{
+public:
 	CPlayerPawnComponent pawnComponent;
 	float m_flPlayerPingTokens[5]; 	// 0x40
 	// MNetworkEnable
@@ -615,8 +630,9 @@ struct CCSPlayer_PingServices //: public CPlayerPawnComponent
 
 // Alignment: 5
 // Size: 0x60
-struct CCSPlayer_RadioServices //: public CPlayerPawnComponent
-{ 
+class CCSPlayer_RadioServices //: public CPlayerPawnComponent
+{
+public:
 	CPlayerPawnComponent pawnComponent;
 	float m_flGotHostageTalkTimer; 	// 0x40
 	float m_flDefusingTalkTimer; 	// 0x44
@@ -627,15 +643,17 @@ struct CCSPlayer_RadioServices //: public CPlayerPawnComponent
 
 // Alignment: 0
 // Size: 0x40
-struct CCSPlayer_DamageReactServices //: public CPlayerPawnComponent
-{ 
+class CCSPlayer_DamageReactServices //: public CPlayerPawnComponent
+{
+public:
 	CPlayerPawnComponent pawnComponent;
 };
 
 // Size: 0x20
 #pragma pack(16)
-struct CTransform
+class CTransform
 {
+public:
 	Vector m_vPosition;
 	Vector4D m_orientation;
 };
@@ -643,8 +661,9 @@ struct CTransform
 
 // Alignment: 2
 // Size: 0x60
-struct CAttributeList // : public 
+class CAttributeList // : public 
 {
+public:
 	uint8_t unknown0[8];
 	// MNetworkEnable
 	// MNetworkTypeAlias "CUtlVector< CEconItemAttribute >"
@@ -655,8 +674,9 @@ struct CAttributeList // : public
 
 // Alignment: 13
 // Size: 0x278
-struct CEconItemView // : public IEconItemInterface
+class CEconItemView // : public IEconItemInterface
 {
+public:
 	uint8_t unknown0[0x38];
 	// MNetworkEnable
 	uint16_t m_iItemDefinitionIndex; 	// 0x38
@@ -686,21 +706,24 @@ struct CEconItemView // : public IEconItemInterface
 	uint8_t unknown2[6];
 };
 
-struct IHandleEntity // : public 
+class IHandleEntity // : public 
 {
+public:
 	uint8_t unknown[8];
 };
 
 union CUtlSymbolLarge
 {
+public:
 	int64_t m_Id;
 	const char *m_pAsString;
 };
 
 // Alignment: 11
 // Size: 0x78
-struct CEntityIdentity // : public 
-{ 
+class CEntityIdentity // : public 
+{
+public:
 	uint8_t unknown0[0x14];
 	// MNetworkEnable
 	// MNetworkChangeCallback "entityIdentityNameChanged"
@@ -725,23 +748,26 @@ struct CEntityIdentity // : public
 
 // Alignment: 0
 // Size: 0x8
-struct CEntityComponent
-{ 
+class CEntityComponent
+{
+public:
 	uint8_t unknown[8];
 };
 
 // Alignment: 1
 // Size: 0x38
-struct CScriptComponent : CEntityComponent
+class CScriptComponent : CEntityComponent
 {
+public:
 	uint8_t unknown[0x28];
 	CUtlSymbolLarge m_scriptClassName; 	// 0x30
 };
 
 // Alignment: 3
 // Size: 0x30
-struct CEntityInstance : IHandleEntity
+class CEntityInstance : IHandleEntity
 {
+public:
 	// MNetworkDisable
 	CUtlSymbolLarge m_iszPrivateVScripts; 	// 0x8
 	// MNetworkEnable
@@ -755,28 +781,32 @@ struct CEntityInstance : IHandleEntity
 
 // Alignment: 1
 // Size: 0x1a0
-struct CNetworkTransmitComponent // : public 
+class CNetworkTransmitComponent // : public 
 {
+public:
 	uint8_t unknown0[0x16c];
 	uint8_t m_nTransmitStateOwnedCounter; 	// 0x16c
 	uint8_t unknown1[0x33];
 };
 
 // Size: 0x18
-struct CUtlVector // : public 
+class CUtlVector // : public 
 {
+public:
 	uint8_t unknown[0x18];
 };
 
-struct CUtlString
+class CUtlString
 {
+public:
 	char *m_pMemory;
 };
 
 // Alignment: 1
 // Size: 0x28
-struct CEntityIOOutput
-{ 
+class CEntityIOOutput
+{
+public:
 	uint8_t unknown[0x28];
 };
 
@@ -784,8 +814,9 @@ typedef uint64_t CNetworkedQuantizedFloat;
 
 // Alignment: 3
 // Size: 0x28
-struct CNetworkVelocityVector
+class CNetworkVelocityVector
 {
+public:
 	uint8_t unknown[0x10];
 	// MNetworkBitCount "18"
 	// MNetworkMinValue "-4096"
@@ -809,8 +840,9 @@ struct CNetworkVelocityVector
 
 // Alignment: 8
 // Size: 0x30
-struct VPhysicsCollisionAttribute_t
-{ 
+class VPhysicsCollisionAttribute_t
+{
+public:
 	uint8_t unknown0[8];
 	// MNetworkEnable
 	uint64_t m_nInteractsAs; 	// 0x8
@@ -833,8 +865,9 @@ struct VPhysicsCollisionAttribute_t
 
 // Alignment: 17
 // Size: 0xb0
-struct CCollisionProperty
-{ 
+class CCollisionProperty
+{
+public:
 	uint8_t unknown0[0x10];
 	// MNetworkEnable
 	// MNetworkChangeCallback "CollisionAttributeChanged"
@@ -882,8 +915,9 @@ struct CCollisionProperty
 
 // Alignment: 77
 // Size: 0x4a0
-struct CBaseEntity : public CEntityInstance
+class CBaseEntity : public CEntityInstance
 {
+public:
 	// MNetworkEnable
 	// MNetworkUserGroup "CBodyComponent"
 	// MNetworkAlias "CBodyComponent"
@@ -1051,8 +1085,9 @@ struct CBaseEntity : public CEntityInstance
 
 // Alignment: 5
 // Size: 0xb8
-struct CRenderComponent : CEntityComponent
+class CRenderComponent : CEntityComponent
 {
+public:
 	uint8_t unknown0[8];
 	// MNetworkDisable
 	// MNetworkChangeAccessorFieldPathIndex
@@ -1069,31 +1104,35 @@ struct CRenderComponent : CEntityComponent
 
 // Alignment: 1
 // Size: 0x28
-struct CHitboxComponent : CEntityComponent
-{ 
+class CHitboxComponent : CEntityComponent
+{
+public:
 	uint8_t unknown[0x1c];
 	// MNetworkEnable
 	uint32_t m_bvDisabledHitGroups[1]; 	// 0x24
 };
 
-struct Color
+class Color
 {
+public:
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
 	uint8_t a;
 };
 
-struct CUtlVectorEmbeddedNetworkVar
+class CUtlVectorEmbeddedNetworkVar
 {
+public:
 	uint8_t unknown[0x50];
 };
 
 
 // Alignment: 11
 // Size: 0x58
-struct CGlowProperty
+class CGlowProperty
 {
+public:
 	uint8_t unknown0[8];
 	Vector m_fGlowColor; 	// 0x8
 	uint8_t unknown1[0x1C];
@@ -1122,15 +1161,17 @@ struct CGlowProperty
 };
 
 // Size: 0x18
-struct CNetworkUtlVectorBase
+class CNetworkUtlVectorBase
 {
+public:
 	uint8_t unknown[0x18];
 };
 
 // Alignment: 3
 // Size: 0x28
-struct CNetworkViewOffsetVector
-{ 
+class CNetworkViewOffsetVector
+{
+public:
 	uint8_t unknown[0x10];
 	// MNetworkBitCount "10"
 	// MNetworkMinValue "-64"
@@ -1154,8 +1195,9 @@ struct CNetworkViewOffsetVector
 
 // Alignment: 26
 // Size: 0x6f0
-struct CBaseModelEntity : CBaseEntity
-{ 
+class CBaseModelEntity : CBaseEntity
+{
+public:
 	// MNetworkEnable
 	// MNetworkUserGroup "CRenderComponent"
 	// MNetworkAlias "CRenderComponent"
@@ -1222,8 +1264,9 @@ struct CBaseModelEntity : CBaseEntity
 
 // Alignment: 2
 // Size: 0x48
-struct PhysicsRagdollPose_t
+class PhysicsRagdollPose_t
 {
+public:
 	uint8_t unknown[8];
 	// MNetworkDisable
 	// MNetworkChangeAccessorFieldPathIndex
@@ -1235,8 +1278,9 @@ struct PhysicsRagdollPose_t
 
 // Alignment: 0
 // Size: 0x8
-struct IChoreoServices
+class IChoreoServices
 {
+public:
 	uint8_t unknown[8];
 };
 
@@ -1244,6 +1288,7 @@ struct IChoreoServices
 // Size: 0x820
 class CBaseAnimGraph : CBaseModelEntity
 {
+public:
 	uint8_t unknown0[0x10];
 	// MNetworkEnable
 	PhysicsRagdollPose_t *m_pRagdollPose; 	// 0x700
@@ -1269,8 +1314,9 @@ class CBaseAnimGraph : CBaseModelEntity
 
 // Alignment: 7
 // Size: 0x8b0
-struct CBaseFlex : CBaseAnimGraph
-{ 
+class CBaseFlex : CBaseAnimGraph
+{
+public:
 	// MNetworkEnable
 	// MNetworkBitCount "12"
 	// MNetworkMinValue "0"
@@ -1292,8 +1338,9 @@ struct CBaseFlex : CBaseAnimGraph
 
 // Alignment: 14
 // Size: 0x968
-struct CBaseCombatCharacter : CBaseFlex
-{ 
+class CBaseCombatCharacter : CBaseFlex
+{
+public:
 	bool m_bForceServerRagdoll; 	// 0x8b0
 	uint8_t unknown0[7];
 	// MNetworkEnable
@@ -1316,8 +1363,9 @@ struct CBaseCombatCharacter : CBaseFlex
 
 // Alignment: 4
 // Size: 0x50
-struct CPlayer_ObserverServices : public CPlayerPawnComponent
+class CPlayer_ObserverServices : public CPlayerPawnComponent
 {
+public:
 	// MNetworkEnable
 	// MNetworkChangeCallback "OnObserverModeChanged"
 	uint8_t m_iObserverMode; 	// 0x40
@@ -1330,21 +1378,22 @@ struct CPlayer_ObserverServices : public CPlayerPawnComponent
 
 // Alignment: 0
 // Size: 0x40
-struct CPlayer_UseServices : public CPlayerPawnComponent
+class CPlayer_UseServices : public CPlayerPawnComponent
 {
 	
 };
 
 // Alignment: 0
 // Size: 0x40
-struct CPlayer_WaterServices : public CPlayerPawnComponent
+class CPlayer_WaterServices : public CPlayerPawnComponent
 {
 };
 
 // Alignment: 6
 // Size: 0xb0
-struct CPlayer_WeaponServices : public CPlayerPawnComponent
-{ 
+class CPlayer_WeaponServices : public CPlayerPawnComponent
+{
+public:
 	bool m_bAllowSwitchToNoWeapon; 	// 0x40
 	uint8_t padding[7];
 	// MNetworkEnable
@@ -1362,26 +1411,27 @@ struct CPlayer_WeaponServices : public CPlayerPawnComponent
 
 // Alignment: 0
 // Size: 0x40
-struct CPlayer_ItemServices : CPlayerPawnComponent
-{ 
+class CPlayer_ItemServices : CPlayerPawnComponent
+{
 };
 
 // Alignment: 0
 // Size: 0x40
-struct CPlayer_AutoaimServices : CPlayerPawnComponent
-{ 
+class CPlayer_AutoaimServices : CPlayerPawnComponent
+{
 };
 
 // Alignment: 0
 // Size: 0x40
-struct CPlayer_FlashlightServices : CPlayerPawnComponent
-{ 
+class CPlayer_FlashlightServices : CPlayerPawnComponent
+{
 };
 
 // Alignment: 14
 // Size: 0x40
-struct fogplayerparams_t
+class fogplayerparams_t
 {
+public:
 	uint8_t unknown[8];
 	// MNetworkEnable
 	// MNetworkUserGroup "PlayerFogController"
@@ -1403,8 +1453,9 @@ struct fogplayerparams_t
 
 // Alignment: 5
 // Size: 0x78
-struct audioparams_t
+class audioparams_t
 {
+public:
 	uint8_t unknown[8];
 	// MNetworkEnable
 	// MNetworkEncoder
@@ -1421,8 +1472,9 @@ struct audioparams_t
 
 // Alignment: 17
 // Size: 0x188
-struct CPlayer_CameraServices : CPlayerPawnComponent
-{ 
+class CPlayer_CameraServices : CPlayerPawnComponent
+{
+public:
 	// MNetworkEnable
 	uint32_t m_iFOV; 	// 0x40
 	// MNetworkEnable
@@ -1468,8 +1520,9 @@ struct CPlayer_CameraServices : CPlayerPawnComponent
 
 // Alignment: 25
 // Size: 0x68
-struct fogparams_t
+class fogparams_t
 {
+public:
 	uint8_t unknown[8];
 	// MNetworkEnable
 	// MNetworkEncoder
@@ -1540,8 +1593,9 @@ typedef uint32_t WorldGroupId_t;
 
 // Alignment: 6
 // Size: 0x90
-struct sky3dparams_t
+class sky3dparams_t
 {
+public:
 	uint8_t unknown[8];
 	// MNetworkEnable
 	int16_t scale; 	// 0x8
@@ -1561,8 +1615,9 @@ struct sky3dparams_t
 
 // Alignment: 9
 // Size: 0x60
-struct CAI_Expresser
+class CAI_Expresser
 {
+public:
 	uint8_t unknown[0x38];
 	float m_flStopTalkTime; 	// 0x38
 	float m_flStopTalkTimeWithoutDelay; 	// 0x3c
@@ -1579,8 +1634,9 @@ typedef uint32_t CEntityIndex;
 
 // Alignment: 22
 // Size: 0xaa0
-struct CBasePlayerPawn : CBaseCombatCharacter
-{ 
+class CBasePlayerPawn : CBaseCombatCharacter
+{
+public:
 	// MNetworkEnable
 	CPlayer_WeaponServices *m_pWeaponServices; 	// 0x968
 	// MNetworkEnable
@@ -1627,15 +1683,17 @@ struct CBasePlayerPawn : CBaseCombatCharacter
 
 // Alignment: 0
 // Size: 0x20
-struct CTouchExpansionComponent : CEntityComponent
-{ 
+class CTouchExpansionComponent : CEntityComponent
+{
+public:
 	uint8_t unknown[0x18];
 };
 
 // Alignment: 6
 // Size: 0x50
-struct CAttributeManager
+class CAttributeManager
 {
+public:
 	uint8_t unknown0[8];
 	CUtlVector m_Providers; 	// 0x8 CUtlVector< CHandle< CBaseEntity > >
 	// MNetworkEnable
@@ -1651,16 +1709,18 @@ struct CAttributeManager
 
 // Alignment: 1
 // Size: 0x2c8
-struct CAttributeContainer : CAttributeManager
-{ 
+class CAttributeContainer : CAttributeManager
+{
+public:
 	// MNetworkEnable
 	CEconItemView m_Item; 	// 0x50
 };
 
 // Alignment: 9
 // Size: 0xba8
-struct CEconEntity : CBaseFlex
+class CEconEntity : CBaseFlex
 {
+public:
 	uint8_t unknown[0x10];
 	// MNetworkEnable
 	CAttributeContainer m_AttributeManager; 	// 0x8c0
@@ -1682,8 +1742,9 @@ struct CEconEntity : CBaseFlex
 
 // Alignment: 10
 // Size: 0xbf8
-struct CBasePlayerWeapon : CEconEntity
+class CBasePlayerWeapon : CEconEntity
 {
+public:
 	// MNetworkEnable
 	// MNetworkChangeCallback "OnWeaponStateChanged"
 	WeaponState_t m_iState; 	// 0xba8
@@ -1716,8 +1777,9 @@ struct CBasePlayerWeapon : CEconEntity
 
 // Alignment: 4
 // Size: 0xa70
-struct CCSPlayer_ActionTrackingServices : CPlayerPawnComponent
+class CCSPlayer_ActionTrackingServices : CPlayerPawnComponent
 {
+public:
 	uint8_t unknown0[0x1F0];
 	CBasePlayerWeapon *m_lastWeaponBeforeC4AutoSwitch; 	// 0x230
 	uint8_t unknown1[0x30];
@@ -1732,16 +1794,18 @@ struct CCSPlayer_ActionTrackingServices : CPlayerPawnComponent
 
 // Alignment: 1
 // Size: 0x50
-struct CCSPlayer_ViewModelServices : CPlayerPawnComponent
+class CCSPlayer_ViewModelServices : CPlayerPawnComponent
 {
+public:
 	// MNetworkEnable
 	CHandle m_hViewModel[3]; 	// 0x40 CHandle< CBaseViewModel >
 };
 
 // Alignment: 2
 // Size: 0x18
-struct EntitySpottedState_t
+class EntitySpottedState_t
 {
+public:
 	uint8_t unknown0[8];
 	// MNetworkEnable
 	// MNetworkChangeCallback "OnIsSpottedChanged"
@@ -1754,8 +1818,9 @@ struct EntitySpottedState_t
 
 // Alignment: 4
 // Size: 0x18
-struct CountdownTimer
+class CountdownTimer
 {
+public:
 	uint8_t unknown[8];
 	// MNetworkEnable
 	float m_duration; 	// 0x8
@@ -1771,8 +1836,9 @@ typedef uint64_t CStrongHandle;
 
 // Alignment: 189
 // Size: 0x1570
-struct CCSPlayerPawnBase : CBasePlayerPawn
+class CCSPlayerPawnBase : CBasePlayerPawn
 {
+public:
 	uint8_t unknown0[0x10];
 	// MNetworkEnable
 	// MNetworkUserGroup "CTouchExpansionComponent"
@@ -2071,8 +2137,9 @@ struct CCSPlayerPawnBase : CBasePlayerPawn
 
 // Alignment: 25
 // Size: 0x1b00
-struct CCSPlayerPawn : CCSPlayerPawnBase
+class CCSPlayerPawn : CCSPlayerPawnBase
 {
+public:
 	CCSPlayer_ParachuteServices *m_pParachuteServices; 	// 0x1570
 	// MNetworkEnable
 	CCSPlayer_BulletServices *m_pBulletServices; 	// 0x1578
@@ -2123,8 +2190,9 @@ struct CCSPlayerPawn : CCSPlayerPawnBase
 	Vector m_qDeathEyeAngles; 	// 0x1af0
 };
 
-struct CMoveDataSource1
+class CMoveDataSource1
 {
+public:
 	// bool			m_bFirstRunOfFunctions : 1;
 	// bool			m_bGameCodeMovedPlayer : 1;
 	// bool			m_bNoAirControl : 1;
@@ -2168,8 +2236,9 @@ struct CMoveDataSource1
 };
 
 // Size: 0xE0
-struct CMoveData
+class CMoveData
 {
+public:
 	/*
 	bool			m_bFirstRunOfFunctions : 1;
 	bool			m_bGameCodeMovedPlayer : 1;
@@ -2234,8 +2303,9 @@ struct CMoveData
 	Vector m_outWishVel; // 0xd4
 };
 
-struct CGlobalVarsBase
+class CGlobalVarsBase
 {
+public:
 	/*
 	// Absolute time (per frame still - Use Plat_FloatTime() for a high precision real time 
 	//  perf clock, but not that it doesn't obey host_timescale/host_framerate)
