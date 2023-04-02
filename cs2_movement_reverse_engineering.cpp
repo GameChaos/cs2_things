@@ -471,7 +471,7 @@ public:
 	virtual void *Unk19();
 	virtual int64_t Unk20(int64_t a2, int64_t a3);
 	virtual int64_t Unk21(int64_t a2, int64_t a3);
-	virtual int64_t Unk22(int64_t a2);
+	virtual void SetPredictionRandomSeed(int64_t ucmd);
 	virtual int64_t Unk23(int64_t a1);
 	virtual bool ReturnOne24();
 	virtual int64_t Unk25(double a2);
@@ -532,7 +532,7 @@ public:
 	// virtual void *Unk19();
 	// virtual int64_t Unk20(int64_t a2, int64_t a3);
 	// virtual int64_t Unk21(int64_t a2, int64_t a3);
-	// virtual int64_t Unk22(int64_t a2);
+	// virtual void SetPredictionRandomSeed(int64_t ucmd);
 	// virtual int64_t Unk23(int64_t a1);
 	virtual bool ReturnOne24();
 	// virtual int64_t Unk25(double a2);
@@ -609,14 +609,14 @@ public:
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
 	virtual int64_t Unk14(int64_t a2);
-	virtual int64_t Unk15(int64_t a2);
+	virtual void PlayerRunCommand(int64_t ucmd);
 	virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
 	// virtual bool ReturnOne18();
-	virtual void *Unk19();
-	virtual int64_t Unk20(int64_t a2, int64_t a3);
-	virtual int64_t Unk21(int64_t a2, int64_t a3);
-	// virtual int64_t Unk22(int64_t a2);
+	virtual void *ResetMoveData();
+	virtual int64_t SetupMove(int64_t ucmd, CMoveData *mv);
+	virtual int64_t FinishMove(int64_t ucmd, CMoveData *mv);
+	// virtual void SetPredictionRandomSeed(int64_t ucmd);
 	virtual int64_t Unk23(int64_t a1);
 	// virtual bool ReturnOne24();
 	virtual int64_t Unk25(double a2);
