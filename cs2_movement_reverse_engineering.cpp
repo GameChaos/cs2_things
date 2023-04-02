@@ -392,7 +392,7 @@ struct Vector4D
 class CInButtonState
 {
 public:
-	virtual CInButtonState::~CInButtonState();
+	virtual ~CInButtonState();
 	uint64_t m_pButtonStates[3];
 };
 
