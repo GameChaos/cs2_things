@@ -834,10 +834,11 @@ public:
 	uint8_t unknown2[6];
 };
 
+// Size: 0x8
 class IHandleEntity // : public 
 {
 public:
-	uint8_t unknown[8];
+	void *__vtbl; // 0x0
 };
 
 union CUtlSymbolLarge
