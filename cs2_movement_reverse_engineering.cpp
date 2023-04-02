@@ -361,10 +361,12 @@ struct Vector4D
 	float w;
 };
 
-struct CInButtonState
+class CInButtonState
 {
-	uint8_t unknown[8];
-	uint64_t m_pButtonStates[3];
+	virtual ~CInButtonState();
+	uint64_t m_pButtonState1;
+	uint64_t m_pButtonState2;
+	uint64_t m_pButtonState3;
 };
 
 // Size: 0x4
