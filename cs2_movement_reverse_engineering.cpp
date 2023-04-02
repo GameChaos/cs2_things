@@ -1820,7 +1820,8 @@ public:
 	CPlayer_MovementServices *m_pMovementServices; 	// 0x9a8
 	uint8_t unknown0[8];
 	Vector v_angle; 	// 0x9b8
-	uint8_t unknown1[0x10];
+	uint8_t unknown1[0x4]; // 0x9c4
+	Vector m_unknownVec0; // 0x9c8 used in CPlayer_MovementServices::Unk20
 	// MNetworkEnable
 	// MNetworkUserGroup "LocalPlayerExclusive"
 	uint32_t m_iHideHUD; 	// 0x9d4
@@ -2401,28 +2402,6 @@ public:
 class CMoveData
 {
 public:
-	/*
-	bool			m_bFirstRunOfFunctions : 1;
-	bool			m_bGameCodeMovedPlayer : 1;
-	bool			m_bNoAirControl : 1;
-
-	CHandle	m_nPlayerHandle;	// edict index on server, client entity handle on client
-
-	int				m_nImpulseCommand;	// Impulse command issued.
-	Vector			m_vecViewAngles;	// Command view angles (local space)
-	Vector			m_vecAbsViewAngles;	// Command view angles (world space)
-	int				m_nButtons;			// Attack buttons.
-	int				m_nOldButtons;		// From host_client->oldbuttons;
-	float			m_flForwardMove;
-	float			m_flSideMove;
-	float			m_flUpMove;
-	
-	float			m_flMaxSpeed;
-	float			m_flClientMaxSpeed;
-
-	// Variables from the player edict (sv_player) or entvars on the client.
-	// These are copied in here before calling and copied out after calling.
-	*/
 	uint8_t moveDataFlags; // 0x0
 	CHandle	m_nPlayerHandle; // 0x4 don't know if this is actually a CHandle
 	uint8_t unknown1[0xC];
@@ -2433,38 +2412,21 @@ public:
 	uint8_t unknown2[4]; // 0x2c
 	Vector m_vecVelocity; // 0x30
 	Vector m_vecAngles; // 0x3c
-	uint8_t unknown3[0x50];
-	// 92 absorigin
-	/*
-	Vector			m_vecTrailingVelocity;
-	float			m_flTrailingVelocityTime;
-	Vector			m_vecAngles;			// edict::angles
-	Vector			m_vecOldAngles;
-	
-// Output only
-	float			m_outStepHeight;	// how much you climbed this move
-	Vector			m_outWishVel;		// This is where you tried 
-	Vector			m_outJumpVel;		// This is your jump velocity
-
-	// Movement constraints	(radius 0 means no constraint)
-	Vector			m_vecConstraintCenter;
-	float			m_flConstraintRadius;
-	float			m_flConstraintWidth;
-	float			m_flConstraintSpeedFactor;
-	bool			m_bConstraintPastRadius;		///< If no, do no constraining past Radius.  If yes, cap them to SpeedFactor past radius
-	*/
-	
+	uint8_t unknown3[0x38];
+	// these 2 vecs are used in FinishMove -> Unk21(this, ucmd, mv) -> void __fastcall sub_7FF8E0960610(CMoveData *mv)
+	Vector m_unknownVec0; // 0x80
+	Vector m_unknownVec1; // 0x8c
 	Vector m_vecAbsOrigin; // 0x98
-	uint8_t unknown4[0x4]; // 0xa4
+	uint8_t unknown5[0x4]; // 0xa4
 	Vector m_vecTrailingVelocity; // 0xa8
 	float m_flTrailingVelocityTime; // 0xb4
-	uint8_t unknown5[0x4]; // 0xb8
+	uint8_t unknown6[0x4]; // 0xb8
 	Vector m_vecOldAngles; // 0xbc
 	float m_flMaxSpeed; // 0xc8
 	float m_flClientMaxSpeed; // 0xcc
 	bool m_bJumpedThisTick; // 0xd0 related to dev_cs_enable_consistent_jumps
 	bool m_bSomethingWithGravity; // 0xd1 related to the new ShouldApplyGravity
-	uint8_t unknown6[0x2]; // 0xd2 Probably padding
+	uint8_t unknown7[0x2]; // 0xd2 Probably padding
 	Vector m_outWishVel; // 0xd4
 };
 
