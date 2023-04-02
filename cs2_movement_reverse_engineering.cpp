@@ -396,7 +396,7 @@ class CInButtonState
 {
 public:
 	virtual ~CInButtonState();
-	uint64_t m_pButtonStates[3];
+	InputBitMask_t m_pButtonStates[3];
 };
 
 // Size: 0x4
@@ -913,6 +913,40 @@ public:
 	float m_flCapsuleRadius; 	// 0xac
 };
 
+
+enum EntityFlag_t : uint64_t
+{
+    FL_ONGROUND = (1<<0), // At rest / on the ground
+    FL_DUCKING = (1<<1),
+    FL_WATERJUMP = (1<<2), // player jumping out of water
+	// Unused 1<<3
+	FL_UNKNOWN0 = (1<<4), // Something related to UserCmd
+    FL_FROZEN = (1<<5), // Player is frozen for 3rd person camera
+    FL_ATCONTROLS = (1<<6),
+    FL_CLIENT = (1<<7), // Unsure
+    FL_FAKECLIENT = (1<<8), // Unsure
+	// Unused 1<<9
+    FL_FLY = (1<<10),
+    FL_UNKNOWN1 = (1<<11), // Something to do with CRevertSaved
+	// Unused 1<<12
+	// Unused 1<<13
+    FL_GODMODE = (1<<14),
+    FL_NOTARGET = (1<<15),
+    FL_AIMTARGET = (1<<16),
+	// Unused 1<<17
+    FL_STATICPROP = (1<<18),
+	// Unused 1<<19
+    FL_GRENADE = (1<<20),
+    FL_DONTTOUCH = (1<<22),
+    FL_BASEVELOCITY = (1<<23),
+    FL_WORLDBRUSH = (1<<24),
+    FL_OBJECT = (1<<25),
+    FL_ONFIRE = (1<<27),
+    FL_DISSOLVING = (1<<28),
+    FL_TRANSRAGDOLL = (1<<29),
+    FL_UNBLOCKABLE_BY_PLAYER = (1<<30)
+};
+
 // Alignment: 77
 // Size: 0x4a0
 class CBaseEntity : public CEntityInstance
@@ -1001,7 +1035,7 @@ public:
 	// MNetworkEnable
 	// MNetworkPriority "32"
 	// MNetworkUserGroup "Player"
-	uint32_t m_fFlags; 	// 0x350
+	EntityFlag_t m_fFlags; 	// 0x350
 	Vector m_vecAbsVelocity; 	// 0x354
 	// MNetworkEnable
 	// MNetworkUserGroup "LocalPlayerExclusive"
@@ -2293,13 +2327,16 @@ public:
 	*/
 	
 	Vector m_vecAbsOrigin; // 0x98
-	uint8_t unknown4[0x18];
+	uint8_t unknown4[0x4]; // 0xa4
+	Vector m_vecTrailingVelocity; // 0xa8
+	float m_flTrailingVelocityTime; // 0xb4
+	uint8_t unknown5[0x4]; // 0xb8
 	Vector m_vecOldAngles; // 0xbc
 	float m_flMaxSpeed; // 0xc8
 	float m_flClientMaxSpeed; // 0xcc
 	bool m_bJumpedThisTick; // 0xd0 related to dev_cs_enable_consistent_jumps
 	bool m_bSomethingWithGravity; // 0xd1 related to the new ShouldApplyGravity
-	uint8_t unknown5[0x2];
+	uint8_t unknown6[0x2]; // 0xd2 Probably padding
 	Vector m_outWishVel; // 0xd4
 };
 
