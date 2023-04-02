@@ -1,7 +1,6 @@
 
 // most things taken from: https://github.com/neverlosecc/source2sdk/tree/cs2
 
-#include <stdint.h>
 #pragma pack(8)
 
 // Alignment: 4
@@ -1043,7 +1042,7 @@ public:
 };
 
 
-enum EntityFlag_t : uint64_t
+enum EntityFlag_t : uint32_t
 {
     FL_ONGROUND = (1<<0), // At rest / on the ground
     FL_DUCKING = (1<<1),
@@ -1130,7 +1129,7 @@ public:
 	// MNetworkEnable
 	// MNetworkSendProxyRecipientsFilter
 	CUtlStringToken m_nSubclassID; 	// 0x2d0
-	uint8_t unknown4[8];
+	uint8_t unknown4[12];
 	// MNetworkEnable
 	// MNetworkPriority "0"
 	// MNetworkSerializer "animTimeSerializer"
