@@ -355,6 +355,17 @@ enum InputBitMask_t : uint64_t
 	IN_JUMP_THROW_RELEASE = 0x800000000,
 };
 
+// Alignment: 4
+// Size: 0x5
+enum LifeState_t : uint8_t
+{
+	LIFE_ALIVE = 0x0,
+	LIFE_DYING = 0x1,
+	LIFE_DEAD = 0x2,
+	LIFE_RESPAWNABLE = 0x3,
+	LIFE_RESPAWNING = 0x4,
+};
+
 // Alignment: 1
 // Size: 0x6
 enum WaterLevel_t : uint8_t
@@ -365,6 +376,21 @@ enum WaterLevel_t : uint8_t
 	WL_Chest = 0x3,
 	WL_FullyUnderwater = 0x4,
 	WL_Count = 0x5,
+};
+
+enum Contents : uint64_t
+{
+	// from CBaseEntity::OnEntityEvent function offset 121 in CBaseEntity vtable
+	CONTENTS_WATER = 0x8000,
+	CONTENTS_SLIME = 0x10000,
+};
+
+// copied from source1
+enum EntityEvent_t : uint32_t
+{
+	ENTITY_EVENT_WATER_TOUCH = 0,
+	ENTITY_EVENT_WATER_UNTOUCH,
+	ENTITY_EVENT_PARENT_CHANGED,
 };
 
 class Vector2D
@@ -838,7 +864,8 @@ public:
 class IHandleEntity // : public 
 {
 public:
-	void *__vtbl; // 0x0
+	virtual uint64_t *IheUnk0(char a2);
+	virtual void IheUnk1();
 };
 
 union CUtlSymbolLarge
@@ -897,6 +924,40 @@ public:
 class CEntityInstance : IHandleEntity
 {
 public:
+	virtual uint64_t *IheUnk0(char a2);
+	virtual int *IheUnk1(int *a2);
+	
+	virtual void *CeiUnk2();
+	virtual int64_t CeiUnk3();
+	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual int64_t CeiUnk5();
+	virtual void CeiUnk6(int64_t *a2);
+	virtual void CeiUnk7();
+	virtual CGlobalVarsBase *CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
+	virtual int CeiUnk9();
+	virtual bool CeiUnk10(int32_t a2, int32_t a3);
+	virtual int64_t CeiReturnZero11();
+	virtual int64_t CeiReturnZero12();
+	virtual void CeiNullSub13();
+	virtual bool CeiUnk14(int64_t a2);
+	virtual void CeiUnk15(void *a2, int64_t a3, int a4);
+	virtual int64_t CeiUnk16(int64_t a2);
+	virtual int64_t CeiUnk17(void **a2);
+	virtual bool CeiUnk18();
+	virtual int64_t CeiUnk19();
+	virtual int64_t CeiUnk20();
+	virtual int *CeiUnk21(int *a2);
+	virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
+	virtual int64_t CeiUnk23();
+	virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
+	virtual bool CeiUnk25();
+	virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	virtual bool CeiUnk27();
+	virtual bool CeiReturnZero28();
+	virtual void **CeiUnk29(int64_t *a2);
+	virtual int64_t *CeiUnk30();
+	virtual void CeiNullSub31();
+	
 	// MNetworkDisable
 	CUtlSymbolLarge m_iszPrivateVScripts; 	// 0x8
 	// MNetworkEnable
@@ -1081,6 +1142,214 @@ enum EntityFlag_t : uint32_t
 class CBaseEntity : public CEntityInstance
 {
 public:
+	virtual uint64_t *IheUnk0(char a2);
+	// virtual int *IheUnk1(int *a2);
+	
+	virtual void *CeiUnk2();
+	virtual int64_t CeiUnk3();
+	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual int64_t CeiUnk5();
+	virtual void CeiUnk6(int64_t *a2);
+	// virtual void CeiUnk7();
+	virtual CGlobalVarsBase *CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
+	virtual int CeiUnk9();
+	virtual bool CeiUnk10(int32_t a2, int32_t a3);
+	// virtual int64_t CeiReturnZero11();
+	// virtual int64_t CeiReturnZero12();
+	// virtual void CeiNullSub13();
+	virtual bool CeiUnk14(int64_t a2);
+	virtual void CeiUnk15(void *a2, int64_t a3, int a4);
+	virtual int64_t CeiUnk16(int64_t a2);
+	virtual int64_t CeiUnk17(void **a2);
+	virtual bool CeiUnk18();
+	virtual int64_t CeiUnk19();
+	virtual int64_t CeiUnk20();
+	virtual int *CeiUnk21(int *a2);
+	virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
+	virtual int64_t CeiUnk23();
+	virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
+	virtual bool CeiUnk25();
+	virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	virtual bool CeiUnk27();
+	// virtual bool CeiReturnZero28();
+	// virtual void **CeiUnk29(int64_t *a2);
+	virtual int64_t *CeiUnk30();
+	virtual void CeiNullSub31();
+	
+	virtual int64_t CbeUnk32();
+	virtual bool CbeReturnZero33();
+	virtual int64_t CbeUnk34(int64_t *a2);
+	virtual int64_t CbeReturnZero35();
+	virtual void CbeNullSub36();
+	virtual int64_t CbeUnk37();
+	virtual void CbeUnk38(int64_t *a2);
+	virtual int64_t CbeReturnZero39();
+	virtual int64_t CbeReturnZero40();
+	virtual int64_t CbeReturnZero41();
+	virtual int64_t CbeReturnZero42();
+	virtual int64_t CbeReturnZero43();
+	virtual int64_t CbeReturnZero44();
+	virtual int64_t CbeReturnZero45();
+	virtual int64_t CbeReturnZero46();
+	virtual bool CbeReturnZero47();
+	virtual bool CbeReturnZero48();
+	virtual int64_t CbeReturnZero49();
+	virtual int64_t CbeReturnZero50();
+	virtual int64_t *CbeUnk51(int64_t *a2);
+	virtual void CbeUnk52();
+	virtual void CbeUnk53();
+	virtual void CbeNullSub54();
+	virtual bool CbeReturnZero55();
+	virtual int64_t CbeReturnZero56();
+	virtual int64_t CbeUnk57(int64_t a2);
+	virtual int64_t CbeUnk58(int64_t a2);
+	virtual CCollisionProperty *GetCollisionProperty();
+	virtual bool CbeReturnOne61();
+	virtual bool CbeReturnZero62();
+	virtual void CbeUnk63(bool a2);
+	virtual void CbeUnk64();
+	virtual void CbeUnk65(int64_t *a2);
+	virtual int CbeUnk66(int64_t *a2, int a3);
+	virtual bool CbeUnk67();
+	virtual int64_t CbeUnk68(int64_t *a2);
+	virtual void CbeNullSub69();
+	virtual int64_t CbeUnk70(int a2, int64_t a3);
+	virtual void CbeNullSub71();
+	virtual void CbeUnk72(float a2);
+	virtual bool CbeReturnZero73();
+	virtual void SetMoveType(MoveType_t moveType, MoveCollide_t moveCollide);
+	virtual bool CbeUnk75(uint8_t a2);
+	virtual Vector *CbeUnk76(Vector *a2);
+	virtual void CbeNullSub77();
+	virtual void CbeNullSub78();
+	virtual int64_t CbeUnk79();
+	virtual int64_t CbeUnk80(void *a2);
+	virtual int64_t CbeUnk81(int64_t *a2, bool a3);
+	virtual void CbeNullSub82();
+	virtual CBaseEntity *CbeUnk83();
+	virtual void CbeNullSub84();
+	virtual int64_t MaybeChangeTeam(uint32_t teamNumber);
+	virtual bool InSameTeam(CBaseEntity *pEntity);
+	virtual void CbeNullSub87();
+	virtual int64_t CbeReturnTwo();
+	virtual int64_t CbeReturnZero89();
+	virtual int64_t CbeReturnZero90();
+	virtual int64_t CbeUnk91(char *a2, char *a3);
+	virtual int64_t CbeReturnZero92();
+	virtual bool CbeReturnZero93();
+	virtual bool CbeReturnZero94();
+	virtual bool CbeReturnZero95();
+	virtual void CbeUnk96(int64_t a2);
+	virtual char *CbeUnk97(char *a2);
+	virtual void CbeUnk98();
+	virtual void CbeNullSub99();
+	virtual bool SomeEntityFlagCheck();
+	virtual bool GetAutoAimRadius();
+	virtual int64_t CbeUnk102(int64_t a2);
+	virtual int64_t CbeUnk103(int64_t a2);
+	virtual bool MaybePassesDamageFilter(void *takeDamageInfo);
+	virtual bool CbeReturnOne105();
+	virtual int TakeHealth(float flHealth);
+	virtual float CbeUnk107();
+	virtual int64_t CbeReturnZero108();
+	virtual int64_t CbeUnk109(void *a2);
+	virtual void CbeNullSub110();
+	virtual int64_t CbeUnk111(void *a2);
+	virtual void CbeNullSub112();
+	virtual bool CbeReturnOne113();
+	virtual double CbeReturnZero114();
+	virtual int CbeUnk115(void *a2, int64_t a3);
+	virtual int CbeUnk116(void *a2, int a3, char *a4);
+	virtual bool CbeReturnZero117();
+	virtual bool CbeUnk118(uint8_t **a2);
+	virtual bool CbeReturnZero119();
+	virtual bool CbeUnk120();
+	virtual void OnEntityEvent(EntityEvent_t, int64_t nContents);
+	virtual bool CbeUnk122(void *a2);
+	virtual int64_t CbeReturnZero123();
+	virtual int64_t CbeUnk124(int64_t a2);
+	virtual int64_t *CbeUnk125(int64_t a2);
+	virtual int64_t *CbeUnk126(int64_t a2);
+	virtual int64_t *CbeUnk127(int64_t a2);
+	virtual void CbeNullSub128();
+	virtual int64_t *CbeUnk129(int64_t a2);
+	virtual void CbeNullSub130();
+	virtual int64_t CbeReturnZero131();
+	virtual int64_t *CbeUnk132();
+	virtual int64_t *CbeUnk133();
+	virtual void CbeUnk134();
+	virtual void CbeUnk135(); // possibly has a call to Physics_SimulateEntity inside it
+	virtual void CbeNullSub136();
+	virtual void CbeNullSub137();
+	virtual void CbeUnk138(void *a2, Vector *velocity);
+	virtual void CbeNullSub139();
+	virtual int64_t CbeUnk140(int64_t a2, int64_t a3, Vector *a4);
+	virtual bool CbeReturnOne141();
+	virtual int32_t CbeUnk142();
+	virtual bool MaybeIsDead();
+	virtual bool CbeReturnZero144();
+	virtual bool CbeReturnZero145();
+	virtual int64_t CbeUnk146();
+	virtual bool CbeReturnZero147();
+	virtual bool CbeReturnZero148();
+	virtual bool CbeReturnZero149();
+	virtual int64_t CbeReturnZero150();
+	virtual int64_t CbeReturnZero151();
+	virtual bool CbeReturnZero152();
+	virtual int64_t CbeReturnZero153();
+	virtual bool CbeReturnZero154();
+	virtual int64_t CbeReturnZero155();
+	virtual int64_t CbeReturnZero156();
+	virtual bool CbeReturnZero157();
+	virtual int GetMaxHealth();
+	virtual int SetHealth(int health);
+	virtual void ModifyOrAppendCriteria(void *criteriaSet);
+	virtual int64_t CbeUnk161(char *a2);
+	virtual void CbeNullSub162();
+	virtual int64_t CbeReturnZero163();
+	virtual double CbeReturnZero164();
+	virtual void CbeNullSub165();
+	virtual Vector *CbeUnk166(Vector *a2);
+	virtual Vector *CbeUnk167(Vector *a2);
+	virtual Vector *CbeUnk168(Vector *a2);
+	virtual int64_t CbeUnk169(int64_t a2);
+	virtual void SetTimeScale(float timescale);
+	virtual int64_t CbeUnk171(int64_t a2);
+	virtual int64_t CbeUnk172(int64_t a2);
+	virtual Vector *CbeUnk173();
+	virtual Vector *MaybeGetAbsVelocity2(Vector *a2);
+	virtual bool MaybeHasBaseVelocity();
+	virtual void CbeNullSub176();
+	virtual void CbeUnk177(Vector *a2);
+	virtual void CbeNullSub178();
+	virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
+	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	virtual bool CbeReturnOne181();
+	virtual CBaseEntity *CbeUnk182();
+	virtual bool CbeReturnZero183();
+	virtual void CbeNullSub184();
+	virtual int64_t CbeNullSub185(int64_t a2);
+	virtual int32_t *MaybeScriptEmitSound(char *soundname);
+	virtual bool CbeUnk187(int64_t a2, int32_t *a3);
+	virtual bool CbeUnk188(int64_t a2, Vector *a3);
+	virtual bool CbeUnk189(int32_t *a2, int64_t *a3);
+	virtual void SetEffects(uint32_t nEffects);
+	virtual bool CbeReturnOne191();
+	virtual int64_t CbeReturnZero192();
+	virtual int64_t CbeReturnZero193();
+	virtual int32_t CbeUnk194();
+	virtual void CbeNullSub195();
+	virtual void CbeNullSub196();
+	virtual void CbeNullSub197();
+	virtual bool CbeReturnZero198();
+	virtual double CbeReturnZero199();
+	virtual double CbeReturnZero200();
+	virtual double CbeReturnZero201();
+	virtual void CbeNullSub202();
+	virtual void CbeNullSub203();
+	virtual bool CbeReturnOne204();
+	virtual void CbeNullSub205();
+	
 	// MNetworkEnable
 	// MNetworkUserGroup "CBodyComponent"
 	// MNetworkAlias "CBodyComponent"
@@ -1109,7 +1378,7 @@ public:
 	// MNetworkEnable
 	// MNetworkUserGroup "Player"
 	// MNetworkPriority "32"
-	uint8_t m_lifeState; 	// 0x2a0
+	LifeState_t m_lifeState; 	// 0x2a0
 	float m_flDamageAccumulator; 	// 0x2a4
 	// MNetworkEnable
 	bool m_bTakesDamage; 	// 0x2a8
