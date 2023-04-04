@@ -393,6 +393,39 @@ enum EntityEvent_t : uint32_t
 	ENTITY_EVENT_PARENT_CHANGED,
 };
 
+enum EntityFlag_t : uint32_t
+{
+    FL_ONGROUND = (1<<0), // At rest / on the ground
+    FL_DUCKING = (1<<1),
+    FL_WATERJUMP = (1<<2), // player jumping out of water
+	// Unused 1<<3
+	FL_UNKNOWN0 = (1<<4), // Something related to UserCmd
+    FL_FROZEN = (1<<5), // Player is frozen for 3rd person camera
+    FL_ATCONTROLS = (1<<6),
+    FL_CLIENT = (1<<7), // Unsure
+    FL_FAKECLIENT = (1<<8), // Unsure
+	// Unused 1<<9
+    FL_FLY = (1<<10),
+    FL_UNKNOWN1 = (1<<11), // Something to do with CRevertSaved
+	// Unused 1<<12
+	// Unused 1<<13
+    FL_GODMODE = (1<<14),
+    FL_NOTARGET = (1<<15),
+    FL_AIMTARGET = (1<<16),
+	// Unused 1<<17
+    FL_STATICPROP = (1<<18),
+	// Unused 1<<19
+    FL_GRENADE = (1<<20),
+    FL_DONTTOUCH = (1<<22),
+    FL_BASEVELOCITY = (1<<23),
+    FL_WORLDBRUSH = (1<<24),
+    FL_OBJECT = (1<<25),
+    FL_ONFIRE = (1<<27),
+    FL_DISSOLVING = (1<<28),
+    FL_TRANSRAGDOLL = (1<<29),
+    FL_UNBLOCKABLE_BY_PLAYER = (1<<30)
+};
+
 class Vector2D
 {
 public:
@@ -449,7 +482,7 @@ class CPlayerPawnComponent
 {
 public:
 	virtual int64_t *Unk0();
-	virtual CPlayerPawnComponent *Unk1(char a2);
+	virtual void *Unk1(char a2);
 	virtual void MergedNullSub2();
 	virtual int64_t Unk3();
 	virtual int64_t Unk4();
@@ -468,13 +501,15 @@ public:
 	uint8_t unknown0[6];
 };
 
+class CMoveData;
+
 // Alignment: 14
 // Size: 0x1b8
-class CPlayer_MovementServices : CPlayerPawnComponent
+class CPlayer_MovementServices : public CPlayerPawnComponent
 {
 public:
 	virtual int64_t *Unk0();
-	virtual CPlayerPawnComponent *Unk1(char a2);
+	virtual void *Unk1(char a2);
 	// virtual void MergedNullSub2();
 	virtual int64_t Unk3();
 	virtual int64_t Unk4();
@@ -531,11 +566,11 @@ public:
 
 // Alignment: 14
 // Size: 0x208
-class CPlayer_MovementServices_Humanoid : CPlayer_MovementServices
+class CPlayer_MovementServices_Humanoid : public CPlayer_MovementServices
 {
 public:
 	virtual int64_t *Unk0();
-	virtual CPlayerPawnComponent *Unk1(char a2);
+	virtual void *Unk1(char a2);
 	// virtual void MergedNullSub2();
 	virtual int64_t Unk3();
 	// virtual int64_t Unk4();
@@ -615,11 +650,11 @@ public:
 
 // Alignment: 35
 // Size: 0x13c0
-class CCSPlayer_MovementServices : CPlayer_MovementServices_Humanoid
+class CCSPlayer_MovementServices : public CPlayer_MovementServices_Humanoid
 {
 public:
 	virtual int64_t *Unk0();
-	virtual CPlayerPawnComponent *Unk1(char a2);
+	virtual void *Unk1(char a2);
 	// virtual void MergedNullSub2();
 	virtual int64_t Unk3();
 	// virtual int64_t Unk4();
@@ -912,7 +947,7 @@ public:
 
 // Alignment: 1
 // Size: 0x38
-class CScriptComponent : CEntityComponent
+class CScriptComponent : public CEntityComponent
 {
 public:
 	uint8_t unknown[0x28];
@@ -921,7 +956,7 @@ public:
 
 // Alignment: 3
 // Size: 0x30
-class CEntityInstance : IHandleEntity
+class CEntityInstance : public IHandleEntity
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -1103,38 +1138,30 @@ public:
 	float m_flCapsuleRadius; 	// 0xac
 };
 
-
-enum EntityFlag_t : uint32_t
+// Alignment: 3
+// Size: 0x28
+class CNetworkViewOffsetVector
 {
-    FL_ONGROUND = (1<<0), // At rest / on the ground
-    FL_DUCKING = (1<<1),
-    FL_WATERJUMP = (1<<2), // player jumping out of water
-	// Unused 1<<3
-	FL_UNKNOWN0 = (1<<4), // Something related to UserCmd
-    FL_FROZEN = (1<<5), // Player is frozen for 3rd person camera
-    FL_ATCONTROLS = (1<<6),
-    FL_CLIENT = (1<<7), // Unsure
-    FL_FAKECLIENT = (1<<8), // Unsure
-	// Unused 1<<9
-    FL_FLY = (1<<10),
-    FL_UNKNOWN1 = (1<<11), // Something to do with CRevertSaved
-	// Unused 1<<12
-	// Unused 1<<13
-    FL_GODMODE = (1<<14),
-    FL_NOTARGET = (1<<15),
-    FL_AIMTARGET = (1<<16),
-	// Unused 1<<17
-    FL_STATICPROP = (1<<18),
-	// Unused 1<<19
-    FL_GRENADE = (1<<20),
-    FL_DONTTOUCH = (1<<22),
-    FL_BASEVELOCITY = (1<<23),
-    FL_WORLDBRUSH = (1<<24),
-    FL_OBJECT = (1<<25),
-    FL_ONFIRE = (1<<27),
-    FL_DISSOLVING = (1<<28),
-    FL_TRANSRAGDOLL = (1<<29),
-    FL_UNBLOCKABLE_BY_PLAYER = (1<<30)
+public:
+	uint8_t unknown[0x10];
+	// MNetworkBitCount "10"
+	// MNetworkMinValue "-64"
+	// MNetworkMaxValue "64"
+	// MNetworkEncodeFlags
+	// MNetworkChangeCallback "CNetworkViewOffsetVector"
+	CNetworkedQuantizedFloat m_vecX; 	// 0x10
+	// MNetworkBitCount "10"
+	// MNetworkMinValue "-64"
+	// MNetworkMaxValue "64"
+	// MNetworkEncodeFlags
+	// MNetworkChangeCallback "CNetworkViewOffsetVector"
+	CNetworkedQuantizedFloat m_vecY; 	// 0x18
+	// MNetworkBitCount "20"
+	// MNetworkMinValue "0"
+	// MNetworkMaxValue "128"
+	// MNetworkEncodeFlags
+	// MNetworkChangeCallback "CNetworkViewOffsetVector"
+	CNetworkedQuantizedFloat m_vecZ; 	// 0x20
 };
 
 // Alignment: 77
@@ -1255,8 +1282,8 @@ public:
 	virtual int64_t CbeUnk108(int64_t a2);
 	virtual int64_t CbeUnk109(void *a2);
 	virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	virtual int64_t CbeUnk111(void *a2);
-	virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	virtual void Event_Killed(void *cTakeDamageInfo);
+	virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	virtual bool CbeReturnOne113();
 	virtual double CbeReturnZero114();
 	virtual int CbeUnk115(void *a2, int64_t a3);
@@ -1324,7 +1351,7 @@ public:
 	virtual void CbeUnk177(Vector *a2);
 	virtual int64_t CbeUnk178();
 	virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	virtual bool CbeReturnOne181();
 	virtual CBaseEntity *CbeUnk182();
 	virtual bool CbeReturnZero183();
@@ -1518,7 +1545,7 @@ public:
 
 // Alignment: 5
 // Size: 0xb8
-class CRenderComponent : CEntityComponent
+class CRenderComponent : public CEntityComponent
 {
 public:
 	uint8_t unknown0[8];
@@ -1537,7 +1564,7 @@ public:
 
 // Alignment: 1
 // Size: 0x28
-class CHitboxComponent : CEntityComponent
+class CHitboxComponent : public CEntityComponent
 {
 public:
 	uint8_t unknown[0x1c];
@@ -1600,35 +1627,9 @@ public:
 	uint8_t unknown[0x18];
 };
 
-// Alignment: 3
-// Size: 0x28
-class CNetworkViewOffsetVector
-{
-public:
-	uint8_t unknown[0x10];
-	// MNetworkBitCount "10"
-	// MNetworkMinValue "-64"
-	// MNetworkMaxValue "64"
-	// MNetworkEncodeFlags
-	// MNetworkChangeCallback "CNetworkViewOffsetVector"
-	CNetworkedQuantizedFloat m_vecX; 	// 0x10
-	// MNetworkBitCount "10"
-	// MNetworkMinValue "-64"
-	// MNetworkMaxValue "64"
-	// MNetworkEncodeFlags
-	// MNetworkChangeCallback "CNetworkViewOffsetVector"
-	CNetworkedQuantizedFloat m_vecY; 	// 0x18
-	// MNetworkBitCount "20"
-	// MNetworkMinValue "0"
-	// MNetworkMaxValue "128"
-	// MNetworkEncodeFlags
-	// MNetworkChangeCallback "CNetworkViewOffsetVector"
-	CNetworkedQuantizedFloat m_vecZ; 	// 0x20
-};
-
 // Alignment: 26
 // Size: 0x6f0
-class CBaseModelEntity : CBaseEntity
+class CBaseModelEntity : public CBaseEntity
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -1744,8 +1745,8 @@ public:
 	// virtual int64_t CbeUnk108(int64_t a2);
 	// virtual int64_t CbeUnk109(void *a2);
 	virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	// virtual int64_t CbeUnk111(void *a2);
-	// virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	// virtual void Event_Killed(void *cTakeDamageInfo);
+	// virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	// virtual bool CbeReturnOne113();
 	// virtual double CbeReturnZero114();
 	// virtual int CbeUnk115(void *a2, int64_t a3);
@@ -1813,7 +1814,7 @@ public:
 	// virtual void CbeUnk177(Vector *a2);
 	// virtual int64_t CbeUnk178();
 	// virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	// virtual bool CbeReturnOne181();
 	// virtual CBaseEntity *CbeUnk182();
 	// virtual bool CbeReturnZero183();
@@ -1942,7 +1943,7 @@ public:
 
 // Alignment: 11
 // Size: 0x820
-class CBaseAnimGraph : CBaseModelEntity
+class CBaseAnimGraph : public CBaseModelEntity
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -2058,8 +2059,8 @@ public:
 	// virtual int64_t CbeUnk108(int64_t a2);
 	// virtual int64_t CbeUnk109(void *a2);
 	// virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	// virtual int64_t CbeUnk111(void *a2);
-	// virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	// virtual void Event_Killed(void *cTakeDamageInfo);
+	// virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	// virtual bool CbeReturnOne113();
 	// virtual double CbeReturnZero114();
 	// virtual int CbeUnk115(void *a2, int64_t a3);
@@ -2127,7 +2128,7 @@ public:
 	// virtual void CbeUnk177(Vector *a2);
 	// virtual int64_t CbeUnk178();
 	// virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	// virtual bool CbeReturnOne181();
 	// virtual CBaseEntity *CbeUnk182();
 	// virtual bool CbeReturnZero183();
@@ -2226,7 +2227,7 @@ public:
 
 // Alignment: 7
 // Size: 0x8b0
-class CBaseFlex : CBaseAnimGraph
+class CBaseFlex : public CBaseAnimGraph
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -2342,8 +2343,8 @@ public:
 	// virtual int64_t CbeUnk108(int64_t a2);
 	// virtual int64_t CbeUnk109(void *a2);
 	// virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	// virtual int64_t CbeUnk111(void *a2);
-	// virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	// virtual void Event_Killed(void *cTakeDamageInfo);
+	// virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	// virtual bool CbeReturnOne113();
 	// virtual double CbeReturnZero114();
 	// virtual int CbeUnk115(void *a2, int64_t a3);
@@ -2411,7 +2412,7 @@ public:
 	// virtual void CbeUnk177(Vector *a2);
 	// virtual int64_t CbeUnk178();
 	// virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	// virtual bool CbeReturnOne181();
 	// virtual CBaseEntity *CbeUnk182();
 	// virtual bool CbeReturnZero183();
@@ -2518,7 +2519,7 @@ public:
 
 // Alignment: 14
 // Size: 0x968
-class CBaseCombatCharacter : CBaseFlex
+class CBaseCombatCharacter : public CBaseFlex
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -2634,8 +2635,8 @@ public:
 	virtual int64_t CbeUnk108(int64_t a2);
 	// virtual int64_t CbeUnk109(void *a2);
 	virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	virtual int64_t CbeUnk111(void *a2);
-	// virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	virtual void Event_Killed(void *cTakeDamageInfo);
+	// virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	// virtual bool CbeReturnOne113();
 	// virtual double CbeReturnZero114();
 	// virtual int CbeUnk115(void *a2, int64_t a3);
@@ -2703,7 +2704,7 @@ public:
 	// virtual void CbeUnk177(Vector *a2);
 	// virtual int64_t CbeUnk178();
 	virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	// virtual bool CbeReturnOne181();
 	// virtual CBaseEntity *CbeUnk182();
 	// virtual bool CbeReturnZero183();
@@ -2803,9 +2804,9 @@ public:
 	virtual int64_t CbccUnk273(int64_t a2);
 	virtual int64_t CbccUnk274(int64_t a2);
 	virtual bool CbccReturnOne275();
-	virtual int64_t CbccUnk276(void *a2);
+	virtual void OnTakeDamage(void *cTakeDamageInfo);
 	virtual void MaybeOnTakeDamage_Alive(void *a2, int32_t *a3);
-	virtual void CbccNullSub278();
+	virtual void CbccUnk278();
 	virtual void CbccNullSub279();
 	virtual void CbccNullSub280();
 	virtual Vector *CalcDeathForceVector(Vector *out, void *takeDamageInfo);
@@ -2894,19 +2895,19 @@ public:
 
 // Alignment: 0
 // Size: 0x40
-class CPlayer_ItemServices : CPlayerPawnComponent
+class CPlayer_ItemServices : public CPlayerPawnComponent
 {
 };
 
 // Alignment: 0
 // Size: 0x40
-class CPlayer_AutoaimServices : CPlayerPawnComponent
+class CPlayer_AutoaimServices : public CPlayerPawnComponent
 {
 };
 
 // Alignment: 0
 // Size: 0x40
-class CPlayer_FlashlightServices : CPlayerPawnComponent
+class CPlayer_FlashlightServices : public CPlayerPawnComponent
 {
 };
 
@@ -2955,7 +2956,7 @@ public:
 
 // Alignment: 17
 // Size: 0x188
-class CPlayer_CameraServices : CPlayerPawnComponent
+class CPlayer_CameraServices : public CPlayerPawnComponent
 {
 public:
 	// MNetworkEnable
@@ -3117,7 +3118,7 @@ typedef uint32_t CEntityIndex;
 
 // Alignment: 22
 // Size: 0xaa0
-class CBasePlayerPawn : CBaseCombatCharacter
+class CBasePlayerPawn : public CBaseCombatCharacter
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -3233,8 +3234,8 @@ public:
 	virtual int64_t CbeUnk108(int64_t a2);
 	// virtual int64_t CbeUnk109(void *a2);
 	virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	virtual int64_t CbeUnk111(void *a2);
-	virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	virtual void Event_Killed(void *cTakeDamageInfo);
+	virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	// virtual bool CbeReturnOne113();
 	// virtual double CbeReturnZero114();
 	// virtual int CbeUnk115(void *a2, int64_t a3);
@@ -3302,7 +3303,7 @@ public:
 	// virtual void CbeUnk177(Vector *a2);
 	virtual int64_t CbeUnk178();
 	virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	// virtual bool CbeReturnOne181();
 	// virtual CBaseEntity *CbeUnk182();
 	// virtual bool CbeReturnZero183();
@@ -3402,9 +3403,9 @@ public:
 	// virtual int64_t CbccUnk273(int64_t a2);
 	// virtual int64_t CbccUnk274(int64_t a2);
 	// virtual bool CbccReturnOne275();
-	virtual int64_t CbccUnk276(void *a2);
+	virtual void OnTakeDamage(void *cTakeDamageInfo);
 	virtual void MaybeOnTakeDamage_Alive(void *a2, int32_t *a3);
-	// virtual void CbccNullSub278();
+	// virtual void CbccUnk278();
 	// virtual void CbccNullSub279();
 	// virtual void CbccNullSub280();
 	// virtual Vector *CalcDeathForceVector(Vector *out, void *takeDamageInfo);
@@ -3426,7 +3427,7 @@ public:
 	virtual bool CbppUnk296();
 	virtual int64_t CbppUnk297();
 	virtual int64_t CbppUnk298();
-	virtual int64_t CbppReturnZero299();
+	virtual int64_t CbppUnk299();
 	virtual int64_t CbppReturnZero300();
 	virtual void *CbppUnk301();
 	virtual void *CbppUnk302();
@@ -3436,7 +3437,7 @@ public:
 	virtual int64_t CbppUnk306();
 	virtual bool CbppUnk307(int64_t a2, void *a3);
 	virtual bool CbppUnk308(CBaseAnimGraph *a2, void *a3, void *a4);
-	virtual void MaybeSpawn();
+	virtual void Spawn();
 	virtual bool CbppUnk310();
 	virtual void PreThink();
 	virtual void PostThink();
@@ -3464,8 +3465,8 @@ public:
 	virtual bool CbppUnk334(void *a2, const char *a3, char *a4, int64_t num, int64_t a6);
 	virtual void ModifyOrAppendPlayerCriteria(void *aiCriteriaSet);
 	virtual void CbppUnk336();
-	virtual void CbppUnk337(Vector *a2, uint8_t a3, bool a4);
-	virtual void CbppUnk338(uint8_t a2, bool a3);
+	virtual void CommitSuicide(Vector *vecForce, bool bExplode, bool bForce);
+	virtual void CommitSuicide(bool bExplode, bool bForce);
 	virtual bool CbppUnk339();
 	virtual bool CbppUnk340();
 	virtual bool CbppUnk341();
@@ -3525,7 +3526,7 @@ public:
 
 // Alignment: 0
 // Size: 0x20
-class CTouchExpansionComponent : CEntityComponent
+class CTouchExpansionComponent : public CEntityComponent
 {
 public:
 	uint8_t unknown[0x18];
@@ -3551,7 +3552,7 @@ public:
 
 // Alignment: 1
 // Size: 0x2c8
-class CAttributeContainer : CAttributeManager
+class CAttributeContainer : public CAttributeManager
 {
 public:
 	// MNetworkEnable
@@ -3560,7 +3561,7 @@ public:
 
 // Alignment: 9
 // Size: 0xba8
-class CEconEntity : CBaseFlex
+class CEconEntity : public CBaseFlex
 {
 public:
 	uint8_t unknown[0x10];
@@ -3584,7 +3585,7 @@ public:
 
 // Alignment: 10
 // Size: 0xbf8
-class CBasePlayerWeapon : CEconEntity
+class CBasePlayerWeapon : public CEconEntity
 {
 public:
 	// MNetworkEnable
@@ -3619,7 +3620,7 @@ public:
 
 // Alignment: 4
 // Size: 0xa70
-class CCSPlayer_ActionTrackingServices : CPlayerPawnComponent
+class CCSPlayer_ActionTrackingServices : public CPlayerPawnComponent
 {
 public:
 	uint8_t unknown0[0x1F0];
@@ -3636,7 +3637,7 @@ public:
 
 // Alignment: 1
 // Size: 0x50
-class CCSPlayer_ViewModelServices : CPlayerPawnComponent
+class CCSPlayer_ViewModelServices : public CPlayerPawnComponent
 {
 public:
 	// MNetworkEnable
@@ -3678,7 +3679,7 @@ typedef uint64_t CStrongHandle;
 
 // Alignment: 189
 // Size: 0x1570
-class CCSPlayerPawnBase : CBasePlayerPawn
+class CCSPlayerPawnBase : public CBasePlayerPawn
 {
 public:
 	virtual uint64_t *IheUnk0(char a2);
@@ -3794,8 +3795,8 @@ public:
 	// virtual int64_t CbeUnk108(int64_t a2);
 	virtual int64_t CbeUnk109(void *a2);
 	// virtual uint8_t CbeUnk110(void *a2, int64_t a3);
-	// virtual int64_t CbeUnk111(void *a2);
-	// virtual void CbeUnk112(CBasePlayerPawn *a2, int64_t a3);
+	// virtual void Event_Killed(void *cTakeDamageInfo);
+	// virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
 	// virtual bool CbeReturnOne113();
 	// virtual double CbeReturnZero114();
 	// virtual int CbeUnk115(void *a2, int64_t a3);
@@ -3863,7 +3864,7 @@ public:
 	// virtual void CbeUnk177(Vector *a2);
 	// virtual int64_t CbeUnk178();
 	// virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
-	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a2, CBaseEntity **a3);
+	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
 	// virtual bool CbeReturnOne181();
 	// virtual CBaseEntity *CbeUnk182();
 	// virtual bool CbeReturnZero183();
@@ -3963,9 +3964,9 @@ public:
 	// virtual int64_t CbccUnk273(int64_t a2);
 	// virtual int64_t CbccUnk274(int64_t a2);
 	// virtual bool CbccReturnOne275();
-	// virtual int64_t CbccUnk276(void *a2);
+	// virtual void OnTakeDamage(void *cTakeDamageInfo);
 	virtual void MaybeOnTakeDamage_Alive(void *a2, int32_t *a3);
-	// virtual void CbccNullSub278();
+	// virtual void CbccUnk278();
 	// virtual void CbccNullSub279();
 	// virtual void CbccNullSub280();
 	// virtual Vector *CalcDeathForceVector(Vector *out, void *takeDamageInfo);
@@ -3987,7 +3988,7 @@ public:
 	virtual bool CbppUnk296();
 	virtual int64_t CbppUnk297();
 	virtual int64_t CbppUnk298();
-	// virtual int64_t CbppReturnZero299();
+	// virtual int64_t CbppUnk299();
 	// virtual int64_t CbppReturnZero300();
 	virtual void *CbppUnk301();
 	virtual void *CbppUnk302();
@@ -3997,7 +3998,7 @@ public:
 	virtual int64_t CbppUnk306();
 	virtual bool CbppUnk307(int64_t a2, void *a3);
 	virtual bool CbppUnk308(CBaseAnimGraph *a2, void *a3, void *a4);
-	virtual void MaybeSpawn();
+	virtual void Spawn();
 	// virtual bool CbppUnk310();
 	virtual void PreThink();
 	virtual void PostThink();
@@ -4025,8 +4026,8 @@ public:
 	virtual bool CbppUnk334(void *a2, const char *a3, char *a4, int64_t num, int64_t a6);
 	virtual void ModifyOrAppendPlayerCriteria(void *aiCriteriaSet);
 	// virtual void CbppUnk336();
-	// virtual void CbppUnk337(Vector *a2, uint8_t a3, bool a4);
-	// virtual void CbppUnk338(uint8_t a2, bool a3);
+	// virtual void CommitSuicide(Vector *vecForce, bool bExplode, bool bForce);
+	// virtual void CommitSuicide(bool bExplode, bool bForce);
 	// virtual bool CbppUnk339();
 	virtual bool CbppUnk340();
 	virtual bool CbppUnk341();
@@ -4043,7 +4044,7 @@ public:
 	virtual bool CppbUnk351(void *a2, char *a3, bool a4, char *a5, int64_t num);
 	virtual int64_t CppbUnk352(void *a2, const char *a3, bool a4, char *a5, int64_t num);
 	virtual void CppbNullSub353();
-	virtual bool CppbReturnZero354();
+	virtual bool CppbUnk354();
 	virtual bool CppbReturnZero355();
 	virtual bool PostSpawnPointSelection();
 	virtual int64_t CppbUnk357();
@@ -4053,14 +4054,14 @@ public:
 	virtual void CppbUnk361(Vector *a2);
 	virtual void CppbNullSub362();
 	virtual void CppbUnk363(bool a2);
-	virtual void CppbNullSub364();
+	virtual void CppbUnk364();
 	virtual bool ShouldPickupItemSilently(CBaseCombatCharacter *pNewOwner);
-	virtual int64_t CppbUnk366();
+	virtual void CppbUnk366(int64_t a2, int64_t a3, int64_t a4, bool a5);
 	virtual void Blind(float holdTime, float fadeTime, float startingAlpha);
 	virtual void CppbUnk368(void *a2);
 	virtual void OnSwitchWeapons(void *pBaseWeapon);
 	virtual void *CppbUnk370(int a2);
-	virtual int64_t CppbReturnZero371();
+	virtual CBaseEntity *CppbUnk371();
 	virtual void OnHealthshotUsed();
 	virtual void CppbUnk373();
 	virtual void CppbUnk374(uint8_t *a2);
@@ -4363,9 +4364,393 @@ public:
 
 // Alignment: 25
 // Size: 0x1b00
-class CCSPlayerPawn : CCSPlayerPawnBase
+class CCSPlayerPawn : public CCSPlayerPawnBase
 {
 public:
+	virtual uint64_t *IheUnk0(char a2);
+	// virtual int *IheUnk1(int *a2);
+	
+	// virtual void *CeiUnk2();
+	virtual void *CeiUnk3();
+	// virtual int64_t CeiUnk4(int64_t *a2);
+	// virtual int64_t CeiUnk5();
+	virtual void CeiUnk6(int64_t *a2);
+	// virtual void CeiUnk7();
+	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
+	// virtual void CeiUnk9();
+	// virtual bool CeiUnk10(int a2, int a3);
+	// virtual int64_t CeiReturnZero11();
+	// virtual int64_t CeiReturnZero12();
+	// virtual void CeiNullSub13();
+	// virtual bool CeiUnk14(int64_t a2);
+	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
+	// virtual int64_t CeiUnk16(int64_t a2);
+	// virtual int64_t CeiUnk17(void **a2);
+	// virtual bool CeiUnk18();
+	// virtual int64_t CeiUnk19();
+	// virtual int32_t CeiUnk20();
+	// virtual int *CeiUnk21(int *a2);
+	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23();
+	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
+	// virtual bool CeiUnk25();
+	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual bool CeiUnk27();
+	// virtual bool CeiReturnZero28();
+	// virtual void **CeiUnk29(int64_t *a2);
+	virtual int64_t *CeiUnk30();
+	virtual void CeiUnk31();
+	
+	virtual int64_t CbeUnk32();
+	// virtual bool CbeReturnZero33();
+	// virtual int64_t CbeUnk34(int64_t *a2);
+	// virtual int64_t CbeReturnZero35();
+	// virtual void CbeNullSub36();
+	virtual int64_t *CbeUnk37(int64_t *a2, int64_t *a3);
+	// virtual void CbeUnk38(int64_t *a2);
+	// virtual void *CbeUnk39();
+	// virtual void *CbeUnk40();
+	// virtual int64_t CbeReturnZero41();
+	// virtual int64_t CbeReturnZero42();
+	// virtual int64_t CbeReturnZero43();
+	// virtual int64_t CbeReturnZero44();
+	// virtual int64_t CbeReturnZero45();
+	// virtual int64_t CbeReturnZero46();
+	// virtual bool CbeUnk47();
+	// virtual bool CbeUnk48();
+	// virtual int64_t CbeUnk49();
+	// virtual int64_t CbeUnk50();
+	// virtual int64_t *CbeUnk51(int64_t *a2, int64_t **a3);
+	virtual void CbeUnk52();
+	virtual void CbeUnk53();
+	// virtual void CbeUnk54();
+	// virtual bool CbeUnk55();
+	// virtual int64_t CbeUnk56();
+	// virtual int64_t CbeUnk57(int64_t a2);
+	// virtual int64_t CbeUnk58(int64_t a2);
+	// virtual void *CbeUnk59(void *a2);
+	// virtual CCollisionProperty *GetCollisionProperty();
+	// virtual bool CbeUnk61();
+	// virtual bool CbeReturnZero62();
+	// virtual void CbeUnk63(bool a2);
+	// virtual void CbeUnk64();
+	// virtual void CbeUnk65(void *a2);
+	// virtual int CbeUnk66(int64_t *a2, int a3);
+	// virtual bool CbeUnk67();
+	// virtual int64_t CbeUnk68(int64_t *a2);
+	// virtual void CbeUnk69(int a2, void *a3);
+	// virtual void CbeUnk70(int a2, int64_t a3);
+	// virtual void CbeNullSub71();
+	// virtual void CbeUnk72(float a2);
+	// virtual bool CbeReturnZero73();
+	// virtual void SetMoveType(MoveType_t moveType, MoveCollide_t moveCollide);
+	// virtual bool CbeUnk75(uint8_t a2);
+	// virtual Vector *CbeUnk76(Vector *a2);
+	// virtual void CbeNullSub77();
+	virtual void CbeUnk78();
+	// virtual int64_t CbeUnk79();
+	// virtual int64_t CbeUnk80(void *a2);
+	// virtual int64_t CbeUnk81(void *a2, bool a3);
+	// virtual void CbeNullSub82();
+	// virtual CBaseEntity *CbeUnk83();
+	// virtual void CbeNullSub84();
+	// virtual int64_t MaybeChangeTeam(uint32_t teamNumber);
+	// virtual bool InSameTeam(CBaseEntity *pEntity);
+	// virtual void CbeUnk87(void *a2, uint32_t a3);
+	// virtual int64_t CbeReturnTwo88();
+	// virtual void *CbeReturnZero89();
+	// virtual void ***CbeUnk90();
+	// virtual int64_t CbeUnk91(char *a2, char *a3);
+	// virtual int64_t CbeReturnZero92();
+	// virtual bool CbeReturnZero93();
+	// virtual bool CbeReturnZero94();
+	// virtual bool CbeReturnZero95();
+	// virtual void CbeUnk96(int64_t a2);
+	// virtual char *CbeUnk97(char *a2);
+	// virtual void CbeUnk98();
+	// virtual void CbeNullSub99();
+	// virtual bool SomeEntityFlagCheck();
+	// virtual bool GetAutoAimRadius();
+	// virtual int64_t CbeUnk102(int64_t a2);
+	// virtual int64_t CbeUnk103(int64_t a2);
+	// virtual bool MaybePassesDamageFilter(void *takeDamageInfo);
+	// virtual bool CbeReturnOne105();
+	// virtual int TakeHealth(float flHealth);
+	// virtual float CbeUnk107();
+	// virtual int64_t CbeUnk108(int64_t a2);
+	// virtual int64_t CbeUnk109(void *a2);
+	// virtual uint8_t CbeUnk110(void *a2, int64_t a3);
+	virtual void Event_Killed(void *cTakeDamageInfo);
+	virtual void Event_KilledOther(CBaseEntity *pVictim, void *cTakeDamageInfo);
+	// virtual bool CbeReturnOne113();
+	// virtual double CbeReturnZero114();
+	// virtual int CbeUnk115(void *a2, int64_t a3);
+	// virtual int ImpactTrace(void *pTrace, int iDamageType, char *pCustomImpactName);
+	// virtual bool CbeReturnZero117();
+	// virtual bool CbeUnk118(uint8_t **a2);
+	// virtual bool CbeReturnZero119();
+	// virtual bool CbeUnk120();
+	// virtual void OnEntityEvent(EntityEvent_t, int64_t nContents);
+	// virtual bool CbeUnk122(void *a2);
+	// virtual const char *CbeReturnZero123();
+	// virtual int64_t CbeUnk124(int64_t a2);
+	// virtual int64_t *CbeUnk125(int64_t a2);
+	// virtual int64_t *MaybeTouch(CBaseEntity *other);
+	// virtual int64_t *CbeUnk127(int64_t a2);
+	// virtual void CbeNullSub128();
+	// virtual int64_t *CbeUnk129(int64_t a2);
+	// virtual void CbeNullSub130();
+	// virtual int64_t CbeReturnZero131();
+	// virtual int64_t *CbeUnk132();
+	// virtual int64_t *CbeUnk133();
+	// virtual void CbeUnk134();
+	// virtual void CbeUnk135(); possibly has a call to Physics_SimulateEntity inside it
+	// virtual void CbeNullSub136();
+	// virtual void CbeNullSub137();
+	// virtual void CbeUnk138(void *a2, Vector *velocity);
+	// virtual void CbeNullSub139();
+	// virtual int64_t CbeUnk140(int64_t a2, int64_t a3, Vector *a4);
+	// virtual bool CbeReturnOne141();
+	// virtual int32_t GetBloodColor();
+	// virtual bool MaybeIsDead();
+	// virtual bool CbeUnk144();
+	// virtual bool CbeReturnZero145();
+	// virtual int64_t CbeUnk146();
+	// virtual bool CbeReturnZero147();
+	// virtual bool CbeReturnZero148();
+	// virtual bool CbeUnk149();
+	// virtual int64_t CbeReturnZero150();
+	// virtual int64_t CbeReturnZero151();
+	// virtual bool CbeReturnZero152();
+	// virtual int64_t CbeReturnZero153();
+	// virtual bool CbeReturnZero154();
+	// virtual int64_t CbeReturnZero155();
+	// virtual int64_t CbeReturnZero156();
+	// virtual bool CbeReturnZero157();
+	// virtual int GetMaxHealth();
+	// virtual int SetHealth(int health);
+	// virtual void ModifyOrAppendCriteria(void *aiCriteriaSet);
+	// virtual int64_t CbeUnk161(char *a2);
+	// virtual void CbeNullSub162();
+	// virtual int64_t CbeReturnZero163();
+	// virtual double CbeReturnZero164();
+	// virtual void CbeNullSub165();
+	// virtual Vector *CbeUnk166(Vector *a2);
+	// virtual Vector *MaybeEyePosition(Vector *a2);
+	// virtual Vector *MaybeLocalEyeAngles(Vector *a2);
+	// virtual int64_t CbeUnk169(int64_t a2);
+	// virtual void SetTimeScale(float timescale);
+	// virtual Vector *CbeUnk171(Vector *a2, int64_t a3, bool a4);
+	// virtual int64_t CbeUnk172(int64_t a2);
+	// virtual CNetworkViewOffsetVector *CbeUnk173();
+	// virtual Vector *MaybeGetAbsVelocity2(Vector *a2);
+	// virtual bool MaybeHasBaseVelocity();
+	// virtual void CbeNullSub176();
+	// virtual void CbeUnk177(Vector *a2);
+	// virtual int64_t CbeUnk178();
+	// virtual bool CbeTraceSomething179(Vector *a2, int64_t *a3);
+	// virtual bool CbeTraceSomething180(Vector *a2, CBaseEntity *a3, CBaseEntity **a4);
+	// virtual bool CbeReturnOne181();
+	// virtual CBaseEntity *CbeUnk182();
+	// virtual bool CbeReturnZero183();
+	// virtual void CbeNullSub184();
+	// virtual int64_t CbeNullSub185(int64_t a2);
+	// virtual int32_t *MaybeScriptEmitSound(char *soundname);
+	// virtual bool CbeUnk187(int64_t a2, int32_t *a3);
+	// virtual bool CbeUnk188(int64_t a2, Vector *a3);
+	// virtual bool CbeUnk189(int32_t *a2, int64_t *a3);
+	// virtual void SetEffects(uint32_t nEffects);
+	// virtual bool CbeReturnOne191();
+	// virtual int64_t CbeReturnZero192();
+	// virtual int64_t CbeReturnZero193();
+	// virtual int32_t CbeUnk194();
+	// virtual bool CbeNullSub195(uint32_t a2);
+	// virtual void CbeNullSub196();
+	// virtual void CbeNullSub197();
+	// virtual bool CbeReturnZero198();
+	// virtual double CbeReturnZero199();
+	// virtual double CbeReturnZero200();
+	// virtual double CbeReturnZero201();
+	// virtual void CbeNullSub202();
+	// virtual void CbeNullSub203();
+	// virtual bool CbeReturnOne204();
+	// virtual void CbeNullSub205();
+	
+	// virtual void CbmeUnk206();
+	// virtual void CbmeNullSub207();
+	// virtual const char *DamageDecal(int bitsDamageType, int gameMaterial);
+	// virtual bool CbmeReturnOne209();
+	// virtual void CbmeNullSub210();
+	// virtual bool CbmeUnk211();
+	// virtual void CbmeUnk212(void *a2);
+	// virtual bool IsRagdoll();
+	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
+	// virtual void CbmeUnk215(int64_t a2);
+	// virtual void CbmeUnk216(int64_t a2);
+	// virtual void Extinguish();
+	// virtual bool Dissolve(char *pMaterialName, float flStartTime, bool bNPCOnly, int nDissolveType, Vector *vDissolverOrigin, int iMagnitude);
+	
+	// virtual void CbagNullSub219();
+	// virtual void CbagNullSub220();
+	// virtual void CbagUnk221();
+	// virtual bool CbagReturnZero222();
+	// virtual int64_t CbagReturnZero223();
+	// virtual int64_t CbagUnk224();
+	// virtual void CbagNullSub225();
+	// virtual void CbagNullSub226();
+	// virtual void CbagNullSub227();
+	// virtual void *CbagUnk228();
+	// virtual void CbagNullSub229();
+	// virtual int64_t CbagUnk230(float a2, float a3);
+	virtual void CbagUnk231(float a2, uint8_t a3);
+	// virtual void CbagNullSub232();
+	// virtual void CbagUnk233();
+	// virtual bool CbagUnk234();
+	// virtual void CbagNullSub235();
+	// virtual void CbagUnk236(void *a2, int32_t *a3);
+	// virtual bool CbagReturnOne237();
+	// virtual Vector *CbagUnk238(Vector *a2, const char *a3);
+	// virtual void CbagUnk239(void *a2);
+	// virtual void CbagUnk240(void *a2, void *a3, char *a4);
+	// virtual bool CbagReturnZero241();
+	// virtual bool CbagReturnZero242();
+	// virtual bool CbagUnk243(int64_t a2, bool a3);
+	// virtual bool CbagUnk244();
+	// virtual bool CbagReturnZero245();
+	// virtual void CbagUnk246(Vector *a2, Vector *a3);
+	// virtual void CbagNullSub247();
+	// virtual bool CbagReturnZero248();
+	// virtual void CbagNullSub249();
+	// virtual int64_t CbagUnk250(int64_t a2, char *a3);
+	
+	// virtual bool CbfUnk251(void *a2);
+	// virtual bool CbfUnk252(void *a2);
+	// virtual bool CbfUnk253(void *a2, bool a3, bool a4);
+	// virtual bool CbfReturnOne254();
+	// virtual double CbfUnk255(const char *a2, float a3, void *a4, void *a5);
+	// virtual double CbfUnk256(const char *a2, float a3);
+	// virtual double CbfUnk257(const char *a2, void *a3, void *a4);
+	// virtual int64_t CbfUnk258();
+	// virtual int64_t CbfUnk259(int a2);
+	// virtual void CbfNullSub260();
+	// virtual bool CbfReturnOne261();
+	
+	// virtual void **CbccUnk262();
+	// virtual void **CbccUnk263();
+	// virtual bool CbccUnk264(CBaseEntity *a2, CBaseEntity **a3);
+	// virtual bool CbccUnk265(Vector *a2);
+	// virtual int64_t CbccUnk266(void *a2);
+	// virtual void CbccUnk267(float duration, float delay);
+	// virtual bool CbccUnk268(Vector *a2);
+	// virtual int64_t CbccUnk269(void *a2);
+	// virtual void CbccUnk270(Vector *a2);
+	// virtual void CbccUnk271(Vector *a2);
+	// virtual void CbccUnk272(Vector *a2);
+	// virtual int64_t CbccUnk273(int64_t a2);
+	// virtual int64_t CbccUnk274(int64_t a2);
+	// virtual bool CbccReturnOne275();
+	virtual void OnTakeDamage(void *cTakeDamageInfo);
+	virtual void MaybeOnTakeDamage_Alive(void *a2, int32_t *a3);
+	virtual void CbccUnk278();
+	// virtual void CbccNullSub279();
+	// virtual void CbccNullSub280();
+	// virtual Vector *CalcDeathForceVector(Vector *out, void *takeDamageInfo);
+	// virtual bool CbccReturnOne282();
+	// virtual void CbccUnk283();
+	// virtual bool CbccReturnOne284();
+	// virtual bool CbccUnk285(void *a2, Vector *a3, int64_t a4);
+	// virtual void CbccNullSub286();
+	// virtual bool CbccReturnZero287();
+	// virtual void CbccNullSub288();
+	// virtual void CbccNullSub289();
+	// virtual void CbccUnk290(void *a2);
+	// virtual void CbccUnk291(int a2, uint64_t *a3);
+	// virtual bool CbccReturnOne292();
+	// virtual bool CbccUnk293(void *a2);
+	// virtual Vector *CbccUnk294(Vector *a2);
+	// virtual int64_t CbccUnk295(int64_t *a2);
+	
+	virtual bool CbppUnk296();
+	virtual int64_t CbppUnk297();
+	// virtual int64_t CbppUnk298();
+	virtual int64_t CbppUnk299();
+	// virtual int64_t CbppReturnZero300();
+	// virtual void *CbppUnk301();
+	// virtual void *CbppUnk302();
+	// virtual void *CbppUnk303();
+	// virtual int64_t CbppReturnZero304();
+	// virtual int64_t CbppUnk305();
+	// virtual int64_t CbppUnk306();
+	// virtual bool CbppUnk307(int64_t a2, void *a3);
+	// virtual bool CbppUnk308(CBaseAnimGraph *a2, void *a3, void *a4);
+	virtual void Spawn();
+	// virtual bool CbppUnk310();
+	virtual void PreThink();
+	virtual void PostThink();
+	// virtual void MaybeDamageEffect(void *a2, int64_t a3, void *a4);
+	// virtual void CbppUnk314(void *a2);
+	// virtual float CbppUnk315();
+	// virtual void CbppUnk316(int64_t a2, int64_t a3);
+	// virtual int64_t CbppReturnZero317();
+	// virtual Vector *CbppUnk318(Vector *a2, int a3);
+	// virtual Vector *CbppUnk319(Vector *a2, int a3);
+	// virtual int64_t CbppUnk320();
+	// virtual bool IsWalking();
+	// virtual bool StartHltvReplayEvent(void *clientReplayEventParams);
+	// virtual void CbppUnk323(int64_t a2);
+	// virtual void CbppUnk324();
+	// virtual int64_t CbppUnk325();
+	// virtual void DeathSound(void *takeDamageInfo);
+	// virtual void FallDamageSound();
+	virtual void CbppUnk328(int maybeImpulse);
+	// virtual void CheatImpulseCommands(int iImpulse);
+	virtual bool ClientCommand(void *cCommandArgs);
+	// virtual void CbppUnk331();
+	// virtual void MaybeForceClientDllUpdate();
+	// virtual void CbppUnk333(int64_t a2, uint32_t a3);
+	// virtual bool CbppUnk334(void *a2, const char *a3, char *a4, int64_t num, int64_t a6);
+	// virtual void ModifyOrAppendPlayerCriteria(void *aiCriteriaSet);
+	// virtual void CbppUnk336();
+	virtual void CommitSuicide(Vector *vecForce, bool bExplode, bool bForce);
+	virtual void CommitSuicide(bool bExplode, bool bForce);
+	// virtual bool CbppUnk339();
+	// virtual bool CbppUnk340();
+	// virtual bool CbppUnk341();
+	// virtual int64_t CbppUnk342();
+	// virtual CAI_Expresser *GetAiExpresser();
+	// virtual void CbppNullSub344();
+	// virtual bool StartReplayMode(float flDelay, float fDuration, CEntityIndex iEntity);
+	// virtual void StopReplayMode();
+	// virtual uint32_t GetDelayTicks();
+	// virtual CEntityIndex *GetReplayEntity(CEntityIndex *a2);
+	// virtual int CbppUnk349(void *a2);
+	
+	// virtual int64_t CppbUnk350(void *a2, char *a3, char *a4, int64_t num, int64_t a6);
+	// virtual bool CppbUnk351(void *a2, char *a3, bool a4, char *a5, int64_t num);
+	// virtual int64_t CppbUnk352(void *a2, const char *a3, bool a4, char *a5, int64_t num);
+	// virtual void CppbNullSub353();
+	virtual bool CppbUnk354();
+	// virtual bool CppbReturnZero355();
+	// virtual bool PostSpawnPointSelection();
+	virtual int64_t CppbUnk357();
+	// virtual void CppbNullSub358();
+	// virtual void CppbUnk359(Vector *a2, Vector *a3, bool a4);
+	// virtual void CppbUnk360(int64_t a2, uint8_t a3);
+	// virtual void CppbUnk361(Vector *a2);
+	// virtual void CppbNullSub362();
+	virtual void CppbUnk363(bool a2);
+	virtual void CppbUnk364();
+	// virtual bool ShouldPickupItemSilently(CBaseCombatCharacter *pNewOwner);
+	virtual void CppbUnk366(int64_t a2, int64_t a3, int64_t a4, bool a5);
+	virtual void Blind(float holdTime, float fadeTime, float startingAlpha);
+	// virtual void CppbUnk368(void *a2);
+	virtual void OnSwitchWeapons(void *pBaseWeapon);
+	virtual void *CppbUnk370(int a2);
+	virtual CBaseEntity *CppbUnk371();
+	virtual void OnHealthshotUsed();
+	virtual void CppbUnk373();
+	virtual void CppbUnk374(uint8_t *a2);
+	
 	CCSPlayer_ParachuteServices *m_pParachuteServices; 	// 0x1570
 	// MNetworkEnable
 	CCSPlayer_BulletServices *m_pBulletServices; 	// 0x1578
@@ -4419,9 +4804,9 @@ public:
 class CMoveDataSource1
 {
 public:
-	// bool			m_bFirstRunOfFunctions : 1;
-	// bool			m_bGameCodeMovedPlayer : 1;
-	// bool			m_bNoAirControl : 1;
+	// bool			m_bFirstRunOfFunctions : public 1;
+	// bool			m_bGameCodeMovedPlayer : public 1;
+	// bool			m_bNoAirControl : public 1;
 	bool flags;
 
 	CHandle	m_nPlayerHandle;	// edict index on server, client entity handle on client
