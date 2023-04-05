@@ -426,6 +426,26 @@ enum EntityFlag_t : uint32_t
     FL_UNBLOCKABLE_BY_PLAYER = (1<<30)
 };
 
+enum EntityEffect_t
+{
+	EF_BONEMERGE                    = 0x001,
+	EF_BRIGHTLIGHT                  = 0x002,
+	EF_DIMLIGHT                     = 0x004,
+	EF_NOINTERP                     = 0x008,
+	EF_NOSHADOW                     = 0x010,
+	EF_NODRAW                       = 0x020,
+	EF_NORECEIVESHADOW              = 0x040,
+	EF_BONEMERGE_FASTCULL           = 0x080,
+	EF_ITEM_BLINK                   = 0x100,	// blink an item so that the user notices it.
+	EF_PARENT_ANIMATES              = 0x200,	// always assume that the parent entity is animating
+	EF_MARKED_FOR_FAST_REFLECTION	= 0x400,	// marks an entity for reflection rendering when using $reflectonlymarkedentities material variable
+	EF_NOSHADOWDEPTH                = 0x800,	// Indicates this entity does not render into any shadow depthmap
+	EF_SHADOWDEPTH_NOCACHE          = 0x1000,	// Indicates this entity cannot be cached in shadow depthmap and should render every frame
+	EF_NOFLASHLIGHT                 = 0x2000,
+	EF_NOCSM                        = 0x4000,	// Indicates this entity does not render into the cascade shadow depthmap
+	EF_MAX_BITS                     = 15
+};
+
 class Vector2D
 {
 public:
@@ -1170,6 +1190,176 @@ public:
 	CNetworkedQuantizedFloat m_vecZ; 	// 0x20
 };
 
+typedef uint32_t CEntityHandle;
+
+// Alignment: 2
+// Size: 0x10
+class CGameSceneNodeHandle
+{
+public:
+	uint8_t unknown[0x8]; // 0x0
+	// MNetworkEnable
+	CEntityHandle m_hOwner; // 0x8	
+	// MNetworkEnable
+	CUtlStringToken m_name; // 0xc	
+};
+
+// Alignment: 7
+// Size: 0x30
+class CNetworkOriginCellCoordQuantizedVector
+{
+public:
+	uint8_t unknown[0x10]; // 0x0
+	// MNetworkEnable
+	// MNetworkChangeCallback "OnCellChanged"
+	// MNetworkPriority "31"
+	// MNetworkSerializer "cellx"
+	uint16_t m_cellX; // 0x10	
+	// MNetworkEnable
+	// MNetworkChangeCallback "OnCellChanged"
+	// MNetworkPriority "31"
+	// MNetworkSerializer "celly"
+	uint16_t m_cellY; // 0x12	
+	// MNetworkEnable
+	// MNetworkChangeCallback "OnCellChanged"
+	// MNetworkPriority "31"
+	// MNetworkSerializer "cellz"
+	uint16_t m_cellZ; // 0x14	
+	// MNetworkEnable
+	uint16_t m_nOutsideWorld; // 0x16	
+	// MNetworkBitCount "15"
+	// MNetworkMinValue "0.000000"
+	// MNetworkMaxValue "1024.000000"
+	// MNetworkEncodeFlags
+	// MNetworkChangeCallback "OnCellChanged"
+	// MNetworkPriority "31"
+	// MNetworkSerializer "posx"
+	CNetworkedQuantizedFloat m_vecX; // 0x18	
+	// MNetworkBitCount "15"
+	// MNetworkMinValue "0.000000"
+	// MNetworkMaxValue "1024.000000"
+	// MNetworkEncodeFlags
+	// MNetworkChangeCallback "OnCellChanged"
+	// MNetworkPriority "31"
+	// MNetworkSerializer "posy"
+	CNetworkedQuantizedFloat m_vecY; // 0x20	
+	// MNetworkBitCount "15"
+	// MNetworkMinValue "0.000000"
+	// MNetworkMaxValue "1024.000000"
+	// MNetworkEncodeFlags
+	// MNetworkChangeCallback "OnCellChanged"
+	// MNetworkPriority "31"
+	// MNetworkSerializer "posz"
+	CNetworkedQuantizedFloat m_vecZ; // 0x28	
+};
+
+// Alignment: 33
+// Size: 0x150
+class CGameSceneNode
+{
+public:
+	uint8_t unknown0[0x10]; // 0x0
+	// MNetworkDisable
+	CTransform m_nodeToWorld; // 0x10	
+	// MNetworkDisable
+	CEntityInstance* m_pOwner; // 0x30	
+	// MNetworkDisable
+	CGameSceneNode* m_pParent; // 0x38	
+	// MNetworkDisable
+	CGameSceneNode* m_pChild; // 0x40	
+	// MNetworkDisable
+	CGameSceneNode* m_pNextSibling; // 0x48	
+	uint8_t unknown1[0x20]; // 0x50
+	// MNetworkEnable
+	// MNetworkSerializer "gameSceneNode"
+	// MNetworkChangeCallback "gameSceneNodeHierarchyParentChanged"
+	// MNetworkPriority "32"
+	// MNetworkVarEmbeddedFieldOffsetDelta "8"
+	CGameSceneNodeHandle m_hParent; // 0x70	
+	// MNetworkEnable
+	// MNetworkPriority "32"
+	// MNetworkUserGroup "Origin"
+	// MNetworkChangeCallback "gameSceneNodeLocalOriginChanged"
+	CNetworkOriginCellCoordQuantizedVector m_vecOrigin; // 0x80	
+	uint8_t unknown2[0x8]; // 0xb0
+	// MNetworkEnable
+	// MNetworkPriority "32"
+	// MNetworkSerializer "gameSceneNodeStepSimulationAnglesSerializer"
+	// MNetworkChangeCallback "gameSceneNodeLocalAnglesChanged"
+	Vector m_angRotation; // 0xb8	
+	// MNetworkEnable
+	// MNetworkChangeCallback "gameSceneNodeLocalScaleChanged"
+	// MNetworkPriority "32"
+	float m_flScale; // 0xc4	
+	// MNetworkDisable
+	Vector m_vecAbsOrigin; // 0xc8	
+	// MNetworkDisable
+	Vector m_angAbsRotation; // 0xd4	
+	// MNetworkDisable
+	float m_flAbsScale; // 0xe0	
+	// MNetworkDisable
+	int16_t m_nParentAttachmentOrBone; // 0xe4	
+	// MNetworkDisable
+	bool m_bDebugAbsOriginChanges; // 0xe6	
+	// MNetworkDisable
+	bool m_bDormant; // 0xe7	
+	// MNetworkDisable
+	bool m_bForceParentToBeNetworked; // 0xe8	
+	
+	// MNetworkDisable
+	uint8_t m_bDirtyHierarchy: 1; 		
+	// MNetworkDisable
+	uint8_t m_bDirtyBoneMergeInfo: 1; 		
+	// MNetworkDisable
+	uint8_t m_bNetworkedPositionChanged: 1; 		
+	// MNetworkDisable
+	uint8_t m_bNetworkedAnglesChanged: 1; 		
+	// MNetworkDisable
+	uint8_t m_bNetworkedScaleChanged: 1; 		
+	// MNetworkDisable
+	uint8_t m_bWillBeCallingPostDataUpdate: 1; 		
+	// MNetworkDisable
+	uint8_t m_bNotifyBoneTransformsChanged: 1; 		
+	// MNetworkDisable
+	uint8_t m_bBoneMergeFlex: 1; 		
+	// MNetworkDisable
+	uint8_t m_nLatchAbsOrigin: 2; 		
+	// MNetworkDisable
+	uint8_t m_bDirtyBoneMergeBoneToRoot: 1; 		
+	// uint16_t __pad0: 13;
+	
+	// MNetworkDisable
+	uint8_t m_nHierarchicalDepth; // 0xeb	
+	// MNetworkDisable
+	uint8_t m_nHierarchyType; // 0xec	
+	// MNetworkDisable
+	uint8_t m_nDoNotSetAnimTimeInInvalidatePhysicsCount; // 0xed	
+	uint8_t unknown3[0x2]; // 0xee
+	// MNetworkEnable
+	CUtlStringToken m_name; // 0xf0	
+	uint8_t unknown4[0x3c]; // 0xf4
+	// MNetworkEnable
+	// MNetworkChangeCallback "gameSceneNodeHierarchyAttachmentChanged"
+	CUtlStringToken m_hierarchyAttachName; // 0x130	
+	// MNetworkDisable
+	float m_flZOffset; // 0x134	
+	// MNetworkDisable
+	Vector m_vRenderOrigin; // 0x138	
+};
+
+// Alignment: 2
+// Size: 0x50
+class CBodyComponent : public CEntityComponent
+{
+public:
+	// MNetworkDisable
+	CGameSceneNode *m_pSceneNode; // 0x8	
+	uint8_t unknown[0x10]; // 0x10
+	// MNetworkDisable
+	// MNetworkChangeAccessorFieldPathIndex
+	CNetworkVarChainer __m_pChainEntity; // 0x20	
+};
+
 // Alignment: 77
 // Size: 0x4a0
 class CBaseEntity : public CEntityInstance
@@ -1390,7 +1580,7 @@ public:
 	// MNetworkAlias "CBodyComponent"
 	// MNetworkTypeAlias "CBodyComponent"
 	// MNetworkPriority "48"
-	void *m_CBodyComponent; 	// 0x30 CBodyComponent
+	CBodyComponent *m_CBodyComponent; 	// 0x30
 	CNetworkTransmitComponent m_NetworkTransmitComponent; 	// 0x38
 	uint8_t unknown0[0x40];
 	CUtlVector m_aThinkFunctions; 	// 0x218 CUtlVector< thinkfunc_t >
