@@ -991,7 +991,7 @@ public:
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t CeiUnk5();
+	virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -1372,7 +1372,7 @@ public:
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t CeiUnk5();
+	virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -1836,7 +1836,7 @@ public:
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
 	virtual void Precache(int64_t *a2);
-	// virtual int64_t CeiUnk5();
+	// virtual int64_t InitialSpawn();
 	// virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -2045,7 +2045,7 @@ public:
 	virtual bool CbmeReturnOne209();
 	virtual void CbmeNullSub210();
 	virtual bool CbmeUnk211();
-	virtual void CbmeUnk212(void *a2);
+	virtual void MaybeSetViewOffset(Vector *viewOffset);
 	virtual bool IsRagdoll();
 	virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	virtual void CbmeUnk215(int64_t a2);
@@ -2151,7 +2151,7 @@ public:
 	virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t CeiUnk5();
+	virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -2360,7 +2360,7 @@ public:
 	// virtual bool CbmeReturnOne209();
 	// virtual void CbmeNullSub210();
 	// virtual bool CbmeUnk211();
-	// virtual void CbmeUnk212(void *a2);
+	// virtual void MaybeSetViewOffset(Vector *viewOffset);
 	virtual bool IsRagdoll();
 	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	// virtual void CbmeUnk215(int64_t a2);
@@ -2436,7 +2436,7 @@ public:
 	virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
 	// virtual void Precache(int64_t *a2);
-	// virtual int64_t CeiUnk5();
+	// virtual int64_t InitialSpawn();
 	// virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	// virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -2645,7 +2645,7 @@ public:
 	// virtual bool CbmeReturnOne209();
 	// virtual void CbmeNullSub210();
 	// virtual bool CbmeUnk211();
-	// virtual void CbmeUnk212(void *a2);
+	// virtual void MaybeSetViewOffset(Vector *viewOffset);
 	// virtual bool IsRagdoll();
 	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	// virtual void CbmeUnk215(int64_t a2);
@@ -2729,7 +2729,7 @@ public:
 	virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
 	// virtual void Precache(int64_t *a2);
-	// virtual int64_t CeiUnk5();
+	// virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -2938,7 +2938,7 @@ public:
 	// virtual bool CbmeReturnOne209();
 	// virtual void CbmeNullSub210();
 	// virtual bool CbmeUnk211();
-	// virtual void CbmeUnk212(void *a2);
+	// virtual void MaybeSetViewOffset(Vector *viewOffset);
 	// virtual bool IsRagdoll();
 	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	// virtual void CbmeUnk215(int64_t a2);
@@ -3329,7 +3329,7 @@ public:
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
 	virtual void Precache(int64_t *a2);
-	// virtual int64_t CeiUnk5();
+	// virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -3538,7 +3538,7 @@ public:
 	// virtual bool CbmeReturnOne209();
 	// virtual void CbmeNullSub210();
 	// virtual bool CbmeUnk211();
-	// virtual void CbmeUnk212(void *a2);
+	// virtual void MaybeSetViewOffset(Vector *viewOffset);
 	// virtual bool IsRagdoll();
 	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	// virtual void CbmeUnk215(int64_t a2);
@@ -3891,7 +3891,7 @@ public:
 	// virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t CeiUnk5();
+	virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	// virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -4100,7 +4100,7 @@ public:
 	// virtual bool CbmeReturnOne209();
 	// virtual void CbmeNullSub210();
 	// virtual bool CbmeUnk211();
-	// virtual void CbmeUnk212(void *a2);
+	// virtual void MaybeSetViewOffset(Vector *viewOffset);
 	// virtual bool IsRagdoll();
 	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	// virtual void CbmeUnk215(int64_t a2);
@@ -4577,7 +4577,7 @@ public:
 	// virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
 	// virtual void Precache(int64_t *a2);
-	// virtual int64_t CeiUnk5();
+	// virtual int64_t InitialSpawn();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
 	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
@@ -4786,7 +4786,7 @@ public:
 	// virtual bool CbmeReturnOne209();
 	// virtual void CbmeNullSub210();
 	// virtual bool CbmeUnk211();
-	// virtual void CbmeUnk212(void *a2);
+	// virtual void MaybeSetViewOffset(Vector *viewOffset);
 	// virtual bool IsRagdoll();
 	// virtual bool CbmeUnk214(int64_t a2, bool a3, int64_t a4, int a5, int64_t a6);
 	// virtual void CbmeUnk215(int64_t a2);
