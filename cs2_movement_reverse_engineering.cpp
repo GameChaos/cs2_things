@@ -1008,8 +1008,8 @@ public:
 	virtual int64_t CeiUnk19();
 	virtual int32_t CeiUnk20();
 	virtual int *CeiUnk21(int *a2);
-	virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	virtual int64_t CeiUnk23(int64_t a2);
 	virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	virtual bool CeiUnk25();
 	virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -1389,8 +1389,8 @@ public:
 	virtual int64_t CeiUnk19();
 	virtual int32_t CeiUnk20();
 	virtual int *CeiUnk21(int *a2);
-	virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	virtual int64_t CeiUnk23(int64_t a2);
 	virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	virtual bool CeiUnk25();
 	virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -1853,8 +1853,8 @@ public:
 	virtual int64_t CeiUnk19();
 	// virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -2168,8 +2168,8 @@ public:
 	// virtual int64_t CeiUnk19();
 	// virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -2453,8 +2453,8 @@ public:
 	virtual int64_t CeiUnk19();
 	// virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -2746,8 +2746,8 @@ public:
 	// virtual int64_t CeiUnk19();
 	// virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -3346,8 +3346,8 @@ public:
 	virtual int64_t CeiUnk19();
 	virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -3908,8 +3908,8 @@ public:
 	// virtual int64_t CeiUnk19();
 	virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
@@ -4594,8 +4594,8 @@ public:
 	// virtual int64_t CeiUnk19();
 	// virtual int32_t CeiUnk20();
 	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t CeiUnk22(int64_t a2, int64_t a3, int64_t a4);
 	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
 	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
