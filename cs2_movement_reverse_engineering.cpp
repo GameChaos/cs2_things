@@ -453,7 +453,7 @@ public:
 class CInButtonState
 {
 public:
-	virtual ~CInButtonState();
+	virtual void *MaybeGetSchema();
 	InputBitMask_t m_pButtonStates[3];
 };
 
@@ -481,6 +481,7 @@ class CCSPlayerPawn;
 class CPlayerPawnComponent
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
 	virtual void *Unk1(char a2);
 	virtual void MergedNullSub2();
@@ -508,6 +509,7 @@ class CMoveData;
 class CPlayer_MovementServices : public CPlayerPawnComponent
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
 	virtual void *Unk1(char a2);
 	// virtual void MergedNullSub2();
@@ -569,6 +571,7 @@ public:
 class CPlayer_MovementServices_Humanoid : public CPlayer_MovementServices
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
 	virtual void *Unk1(char a2);
 	// virtual void MergedNullSub2();
@@ -653,6 +656,7 @@ public:
 class CCSPlayer_MovementServices : public CPlayer_MovementServices_Humanoid
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
 	virtual void *Unk1(char a2);
 	// virtual void MergedNullSub2();
@@ -899,6 +903,7 @@ public:
 class IHandleEntity // : public 
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	virtual int *IheUnk1(int *a2);
 };
@@ -959,6 +964,7 @@ public:
 class CEntityInstance : public IHandleEntity
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	virtual int *IheUnk1(int *a2);
 	
@@ -1169,6 +1175,7 @@ public:
 class CBaseEntity : public CEntityInstance
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -1632,6 +1639,7 @@ public:
 class CBaseModelEntity : public CBaseEntity
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -1946,6 +1954,7 @@ public:
 class CBaseAnimGraph : public CBaseModelEntity
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -2230,6 +2239,7 @@ public:
 class CBaseFlex : public CBaseAnimGraph
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -2522,6 +2532,7 @@ public:
 class CBaseCombatCharacter : public CBaseFlex
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -3121,6 +3132,7 @@ typedef uint32_t CEntityIndex;
 class CBasePlayerPawn : public CBaseCombatCharacter
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -3682,6 +3694,7 @@ typedef uint64_t CStrongHandle;
 class CCSPlayerPawnBase : public CBasePlayerPawn
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
@@ -4367,6 +4380,7 @@ public:
 class CCSPlayerPawn : public CCSPlayerPawnBase
 {
 public:
+	virtual void *MaybeGetSchema();
 	virtual uint64_t *IheUnk0(char a2);
 	// virtual int *IheUnk1(int *a2);
 	
