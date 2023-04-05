@@ -970,7 +970,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
-	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual void Precache(int64_t *a2);
 	virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	virtual void CeiUnk7();
@@ -1181,7 +1181,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
-	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual void Precache(int64_t *a2);
 	virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
@@ -1645,7 +1645,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
-	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual void Precache(int64_t *a2);
 	// virtual int64_t CeiUnk5();
 	// virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
@@ -1960,7 +1960,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
-	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual void Precache(int64_t *a2);
 	virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	virtual void CeiUnk7();
@@ -2245,7 +2245,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
-	// virtual int64_t CeiUnk4(int64_t *a2);
+	// virtual void Precache(int64_t *a2);
 	// virtual int64_t CeiUnk5();
 	// virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
@@ -2538,7 +2538,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
-	// virtual int64_t CeiUnk4(int64_t *a2);
+	// virtual void Precache(int64_t *a2);
 	// virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
@@ -3138,7 +3138,7 @@ public:
 	
 	virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
-	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual void Precache(int64_t *a2);
 	// virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
@@ -3700,7 +3700,7 @@ public:
 	
 	// virtual void *CeiUnk2();
 	// virtual void *CeiUnk3();
-	virtual int64_t CeiUnk4(int64_t *a2);
+	virtual void Precache(int64_t *a2);
 	virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
@@ -4386,7 +4386,7 @@ public:
 	
 	// virtual void *CeiUnk2();
 	virtual void *CeiUnk3();
-	// virtual int64_t CeiUnk4(int64_t *a2);
+	// virtual void Precache(int64_t *a2);
 	// virtual int64_t CeiUnk5();
 	virtual void CeiUnk6(int64_t *a2);
 	// virtual void CeiUnk7();
