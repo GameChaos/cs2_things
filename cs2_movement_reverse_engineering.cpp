@@ -461,6 +461,8 @@ public:
 	float z;
 };
 
+typedef Vector QAngle;
+
 class Vector4D
 {
 public:
@@ -4631,7 +4633,7 @@ public:
 
 	uint8_t __pad155c[0x4]; // 0x155c
 
-	CCSBot* m_pBot; // 0x1560
+	void* m_pBot; // 0x1560
 	bool m_bBotAllowActive; 	// 0x1568
 	bool m_bCommittingSuicideOnTeamChange; 	// 0x1569
 };
