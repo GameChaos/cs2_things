@@ -547,7 +547,7 @@ public:
 	// virtual void MergedNullSub12();
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
-	virtual int64_t Unk14(int64_t a2);
+	virtual void UpdateButtonState(void *ucmd);
 	virtual void PlayerRunCommand(void *ucmd);
 	virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
@@ -558,7 +558,7 @@ public:
 	virtual void SetPredictionRandomSeed(void *ucmd);
 	virtual int64_t Unk23(void *ucmd, int64_t a2);
 	virtual bool ReturnOne24();
-	virtual int64_t Unk25(double a2);
+	virtual void CheckMovingGround(double frametime);
 	virtual bool ReturnZero26();
 	virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
@@ -609,7 +609,7 @@ public:
 	// virtual void MergedNullSub12();
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
-	// virtual int64_t Unk14(int64_t a2);
+	// virtual void UpdateButtonState(void *ucmd);
 	// virtual void PlayerRunCommand(void *ucmd);
 	// virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
@@ -620,7 +620,7 @@ public:
 	// virtual void SetPredictionRandomSeed(void *ucmd);
 	// virtual int64_t Unk23(void *ucmd, int64_t a2);
 	virtual bool ReturnOne24();
-	// virtual int64_t Unk25(double a2);
+	// virtual void CheckMovingGround(double frametime);
 	// virtual bool ReturnZero26();
 	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
@@ -694,7 +694,7 @@ public:
 	// virtual void MergedNullSub12();
 	virtual int32_t *Unk13(int32_t *outWorldGroupId);
 	
-	virtual int64_t Unk14(int64_t a2);
+	virtual void UpdateButtonState(void *ucmd);
 	virtual void PlayerRunCommand(void *ucmd);
 	virtual void ProcessMovement(CMoveData *mv);
 	virtual int64_t Unk17(int64_t a2);
@@ -705,7 +705,7 @@ public:
 	// virtual void SetPredictionRandomSeed(void *ucmd);
 	virtual int64_t Unk23(void *ucmd, int64_t a2);
 	// virtual bool ReturnOne24();
-	virtual int64_t Unk25(double a2);
+	virtual void CheckMovingGround(double frametime);
 	// virtual bool ReturnZero26();
 	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
