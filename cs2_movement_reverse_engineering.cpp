@@ -512,7 +512,7 @@ public:
 	virtual void MergedNullSub5();
 	virtual int64_t Unk6();
 	virtual int64_t Unk7();
-	virtual void UpdatePlayerSound();
+	virtual void PostThink();
 	virtual char Unk9();
 	virtual int64_t Unk10();
 	virtual void MergedNullSub11();
@@ -540,7 +540,7 @@ public:
 	// virtual void MergedNullSub5();
 	virtual int64_t Unk6();
 	// virtual int64_t Unk7();
-	// virtual void UpdatePlayerSound();
+	// virtual void PostThink();
 	// virtual char Unk9();
 	virtual int64_t Unk10();
 	// virtual void MergedNullSub11();
@@ -602,7 +602,7 @@ public:
 	// virtual void MergedNullSub5();
 	// virtual int64_t Unk6();
 	virtual int64_t Unk7();
-	virtual void UpdatePlayerSound();
+	virtual void PostThink();
 	virtual char Unk9();
 	virtual int64_t Unk10();
 	// virtual void MergedNullSub11();
@@ -625,7 +625,7 @@ public:
 	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
 	virtual float Unk28();
-	virtual int64_t Unk29();
+	virtual void UpdateCollisionBounds();
 	virtual void UnkNull30();
 	virtual int64_t GetLadderSurface();
 	virtual void UpdateStepSound(int64_t psurface, const Vector &vecOrigin, const Vector &vecVelocity);
@@ -687,7 +687,7 @@ public:
 	// virtual void MergedNullSub5();
 	// virtual int64_t Unk6();
 	// virtual int64_t Unk7();
-	// virtual void UpdatePlayerSound();
+	// virtual void PostThink();
 	// virtual char Unk9();
 	// virtual int64_t Unk10();
 	// virtual void MergedNullSub11();
@@ -710,7 +710,7 @@ public:
 	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
 	virtual float Unk28();
-	// virtual int64_t Unk29();
+	// virtual void UpdateCollisionBounds();
 	// virtual void UnkNull30();
 	// virtual int64_t GetLadderSurface();
 	virtual void UpdateStepSound(uint64_t psurface, const Vector &vecOrigin, const Vector &vecVelocity);
