@@ -624,7 +624,7 @@ public:
 	// virtual bool ReturnZero26();
 	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
-	virtual float Unk28();
+	virtual float FlPlayerFallDamage();
 	virtual void UpdateCollisionBounds();
 	virtual void UnkNull30();
 	virtual int64_t GetLadderSurface();
@@ -709,7 +709,7 @@ public:
 	// virtual bool ReturnZero26();
 	// virtual int64_t Unk27(int64_t a2, float a3, float a4, float a5, char a6);
 	
-	virtual float Unk28();
+	virtual float FlPlayerFallDamage();
 	// virtual void UpdateCollisionBounds();
 	// virtual void UnkNull30();
 	// virtual int64_t GetLadderSurface();
