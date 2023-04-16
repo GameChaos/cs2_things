@@ -505,9 +505,9 @@ class CPlayerPawnComponent
 public:
 	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
-	virtual void *Unk1(char a2);
+	virtual void MaybeInitialize(bool a2);
 	virtual void MergedNullSub2();
-	virtual int64_t Unk3();
+	virtual void MaybeSpawn();
 	virtual int64_t Unk4();
 	virtual void MergedNullSub5();
 	virtual int64_t Unk6();
@@ -533,9 +533,9 @@ class CPlayer_MovementServices : public CPlayerPawnComponent
 public:
 	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
-	virtual void *Unk1(char a2);
+	virtual void MaybeInitialize(bool a2);
 	// virtual void MergedNullSub2();
-	virtual int64_t Unk3();
+	virtual void MaybeSpawn();
 	virtual int64_t Unk4();
 	// virtual void MergedNullSub5();
 	virtual int64_t Unk6();
@@ -595,9 +595,9 @@ class CPlayer_MovementServices_Humanoid : public CPlayer_MovementServices
 public:
 	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
-	virtual void *Unk1(char a2);
+	virtual void MaybeInitialize(bool a2);
 	// virtual void MergedNullSub2();
-	virtual int64_t Unk3();
+	virtual void MaybeSpawn();
 	// virtual int64_t Unk4();
 	// virtual void MergedNullSub5();
 	// virtual int64_t Unk6();
@@ -680,9 +680,9 @@ class CCSPlayer_MovementServices : public CPlayer_MovementServices_Humanoid
 public:
 	virtual void *MaybeGetSchema();
 	virtual int64_t *Unk0();
-	virtual void *Unk1(char a2);
+	virtual void MaybeInitialize(bool a2); // Called upon map change
 	// virtual void MergedNullSub2();
-	virtual int64_t Unk3();
+	virtual void MaybeSpawn(); // Called upon changing team
 	// virtual int64_t Unk4();
 	// virtual void MergedNullSub5();
 	// virtual int64_t Unk6();
