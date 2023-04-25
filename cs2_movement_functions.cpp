@@ -1,6 +1,7 @@
 #include "cs2_movement_reverse_engineering.cpp"
-
-void Duck(CCSPlayer_MovementServices* moveService, CMoveData* mv) {
+CCSPlayer_MovementServices* moveService;
+CMoveData* mv;
+void CCSPlayer_MovementServices::Duck() {
 	
 	UpdateDuckJumpEyeOffset(); // See hl2sdk
 	
@@ -329,4 +330,9 @@ void Duck(CCSPlayer_MovementServices* moveService, CMoveData* mv) {
 		}
 	}
 	HandleDuckingSpeedCrop( moveService->m_flDuckAmount ); // See hl2sdk
+}
+
+void CCSPlayer_MovementServices::SetGroundEntity(trace_t* pm)
+{
+	// TODO: same thing, just no noclip flag check
 }

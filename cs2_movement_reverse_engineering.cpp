@@ -1,4 +1,3 @@
-
 // most things taken from: https://github.com/neverlosecc/source2sdk/tree/cs2
 
 #pragma pack(8)
@@ -475,7 +474,7 @@ public:
 class CInButtonState
 {
 public:
-	virtual void *MaybeGetSchema();
+	virtual void *Schema_DynamicBinding();
 	InputBitMask_t m_pButtonStates[3];
 };
 
@@ -503,7 +502,7 @@ class CCSPlayerPawn;
 class CPlayerPawnComponent
 {
 public:
-	virtual void *MaybeGetSchema();
+	virtual void *Schema_DynamicBinding();
 	virtual int64_t *Unk0();
 	virtual void MaybeInitialize(bool a2);
 	virtual void MergedNullSub2();
@@ -531,7 +530,7 @@ class CMoveData;
 class CPlayer_MovementServices : public CPlayerPawnComponent
 {
 public:
-	virtual void *MaybeGetSchema();
+	virtual void *Schema_DynamicBinding();
 	virtual int64_t *Unk0();
 	virtual void MaybeInitialize(bool a2);
 	// virtual void MergedNullSub2();
@@ -593,7 +592,7 @@ public:
 class CPlayer_MovementServices_Humanoid : public CPlayer_MovementServices
 {
 public:
-	virtual void *MaybeGetSchema();
+	virtual void *Schema_DynamicBinding();
 	virtual int64_t *Unk0();
 	virtual void MaybeInitialize(bool a2);
 	// virtual void MergedNullSub2();
@@ -678,7 +677,7 @@ public:
 class CCSPlayer_MovementServices : public CPlayer_MovementServices_Humanoid
 {
 public:
-	virtual void *MaybeGetSchema();
+	virtual void *Schema_DynamicBinding();
 	virtual int64_t *Unk0();
 	virtual void MaybeInitialize(bool a2); // Called upon map change
 	// virtual void MergedNullSub2();
@@ -925,9 +924,9 @@ public:
 class IHandleEntity // : public 
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~IHandleEntity();
+	virtual int *GetRefEHandle();
 };
 
 union CUtlSymbolLarge
@@ -986,41 +985,40 @@ public:
 class CEntityInstance : public IHandleEntity
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	virtual int *IheUnk1(int *a2);
-	
-	virtual void *CeiUnk2();
-	virtual void *CeiUnk3();
+	virtual void *Schema_DynamicBinding();
+	virtual ~CEntityInstance();
+	virtual int *GetRefEHandle();	
+	virtual void *GetScriptDesc();
+	virtual void *Connect();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	virtual bool CeiUnk10(int a2, int a3);
-	virtual int64_t CeiReturnZero11();
-	virtual int64_t CeiReturnZero12();
+	virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	virtual bool OnSetDormant(int a2, int a3);
+	virtual int64_t PreDataUpdate();
+	virtual int64_t DrawEntityDebugOverlays();
 	virtual void CeiNullSub13();
 	virtual bool CeiUnk14(int64_t a2);
 	virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	virtual int64_t CeiUnk16(int64_t a2);
-	virtual int64_t CeiUnk17(void **a2);
-	virtual bool CeiUnk18();
-	virtual int64_t OnRestore();
-	virtual int32_t CeiUnk20();
-	virtual int *CeiUnk21(int *a2);
-	virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	virtual int64_t Save(int64_t a2);
+	virtual int64_t Restore(void **a2);
+	virtual bool OnSave();
+	virtual void OnRestore();
+	virtual int32_t ObjectCaps();
+	virtual int RequiredEdictIndex();
+	virtual void NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	virtual int64_t CeiUnk23(int64_t a2);
 	virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	virtual bool CeiUnk25();
-	virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	virtual bool CeiUnk27();
 	virtual bool CeiReturnZero28();
-	virtual void **CeiUnk29(int64_t *a2);
+	virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
-	
+
 	// MNetworkDisable
 	CUtlSymbolLarge m_iszPrivateVScripts; 	// 0x8
 	// MNetworkEnable
@@ -1367,38 +1365,38 @@ public:
 class CBaseEntity : public CEntityInstance
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CBaseEntity();
+	// virtual int *GetRefEHandle();
 	
-	virtual void *CeiUnk2();
-	virtual void *CeiUnk3();
+	virtual void *GetScriptDesc();
+	virtual void *Connect();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	virtual bool CeiUnk14(int64_t a2);
 	virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	virtual int64_t CeiUnk16(int64_t a2);
-	virtual int64_t CeiUnk17(void **a2);
-	virtual bool CeiUnk18();
-	virtual int64_t OnRestore();
-	virtual int32_t CeiUnk20();
-	virtual int *CeiUnk21(int *a2);
-	virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	virtual int64_t Save(int64_t a2);
+	virtual int64_t Restore(void **a2);
+	virtual bool OnSave();
+	virtual void OnRestore();
+	virtual int32_t ObjectCaps();
+	virtual int RequiredEdictIndex();
+	virtual void NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	virtual int64_t CeiUnk23(int64_t a2);
 	virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	virtual bool CeiUnk25();
-	virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -1831,38 +1829,38 @@ public:
 class CBaseModelEntity : public CBaseEntity
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CBaseModelEntity();
+	// virtual int *GetRefEHandle();
 	
-	virtual void *CeiUnk2();
-	virtual void *CeiUnk3();
+	virtual void *GetScriptDesc();
+	virtual void *Connect();
 	virtual void Precache(int64_t *a2);
-	// virtual int64_t InitialSpawn();
-	// virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	// virtual void AddedToEntityDatabase();
+	// virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	// virtual bool CeiUnk14(int64_t a2);
 	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	virtual int64_t CeiUnk16(int64_t a2);
-	// virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	virtual int64_t OnRestore();
-	// virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	virtual int64_t Save(int64_t a2);
+	// virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	virtual void OnRestore();
+	// virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -2146,38 +2144,38 @@ public:
 class CBaseAnimGraph : public CBaseModelEntity
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CBaseAnimGraph();
+	// virtual int *GetRefEHandle();
 	
-	virtual void *CeiUnk2();
-	// virtual void *CeiUnk3();
+	virtual void *GetScriptDesc();
+	// virtual void *Connect();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	virtual void CeiNullSub13();
 	// virtual bool CeiUnk14(int64_t a2);
 	virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	// virtual int64_t CeiUnk16(int64_t a2);
-	virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	// virtual int64_t OnRestore();
-	// virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t Save(int64_t a2);
+	virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	// virtual void OnRestore();
+	// virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -2431,38 +2429,38 @@ public:
 class CBaseFlex : public CBaseAnimGraph
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CBaseFlex();
+	// virtual int *GetRefEHandle();
 	
-	virtual void *CeiUnk2();
-	// virtual void *CeiUnk3();
+	virtual void *GetScriptDesc();
+	// virtual void *Connect();
 	// virtual void Precache(int64_t *a2);
-	// virtual int64_t InitialSpawn();
-	// virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	// virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	// virtual void CeiUnk9();
-	// virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	// virtual void AddedToEntityDatabase();
+	// virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	// virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	// virtual void UpdateOnRemove();
+	// virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	// virtual bool CeiUnk14(int64_t a2);
 	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	// virtual int64_t CeiUnk16(int64_t a2);
-	// virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	virtual int64_t OnRestore();
-	// virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t Save(int64_t a2);
+	// virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	virtual void OnRestore();
+	// virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -2724,38 +2722,38 @@ public:
 class CBaseCombatCharacter : public CBaseFlex
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CBaseCombatCharacter();
+	// virtual int *GetRefEHandle();
 	
-	virtual void *CeiUnk2();
-	// virtual void *CeiUnk3();
+	virtual void *GetScriptDesc();
+	// virtual void *Connect();
 	// virtual void Precache(int64_t *a2);
-	// virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	// virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	// virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	// virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	// virtual bool CeiUnk14(int64_t a2);
 	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	// virtual int64_t CeiUnk16(int64_t a2);
-	virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	// virtual int64_t OnRestore();
-	// virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t Save(int64_t a2);
+	virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	// virtual void OnRestore();
+	// virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	virtual void **CeiUnk29(int64_t *a2);
+	virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -3324,38 +3322,38 @@ typedef uint32_t CEntityIndex;
 class CBasePlayerPawn : public CBaseCombatCharacter
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CBasePlayerPawn();
+	// virtual int *GetRefEHandle();
 	
-	virtual void *CeiUnk2();
-	virtual void *CeiUnk3();
+	virtual void *GetScriptDesc();
+	virtual void *Connect();
 	virtual void Precache(int64_t *a2);
-	// virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	// virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	// virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	// virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	virtual bool CeiUnk14(int64_t a2);
 	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	virtual int64_t CeiUnk16(int64_t a2);
-	virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	virtual int64_t OnRestore();
-	virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	virtual int64_t Save(int64_t a2);
+	virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	virtual void OnRestore();
+	virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -3886,38 +3884,38 @@ typedef uint64_t CStrongHandle;
 class CCSPlayerPawnBase : public CBasePlayerPawn
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CCSPlayerPawnBase();
+	// virtual int *GetRefEHandle();
 	
-	// virtual void *CeiUnk2();
-	// virtual void *CeiUnk3();
+	// virtual void *GetScriptDesc();
+	// virtual void *Connect();
 	virtual void Precache(int64_t *a2);
-	virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	// virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	virtual void CeiUnk9();
-	virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	// virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	virtual void UpdateOnRemove();
+	virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	// virtual bool CeiUnk14(int64_t a2);
 	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	// virtual int64_t CeiUnk16(int64_t a2);
-	// virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	// virtual int64_t OnRestore();
-	virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t Save(int64_t a2);
+	// virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	// virtual void OnRestore();
+	virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
@@ -4647,38 +4645,38 @@ public:
 class CCSPlayerPawn : public CCSPlayerPawnBase
 {
 public:
-	virtual void *MaybeGetSchema();
-	virtual uint64_t *IheUnk0(char a2);
-	// virtual int *IheUnk1(int *a2);
+	virtual void *Schema_DynamicBinding();
+	virtual ~CCSPlayerPawn();
+	// virtual int *GetRefEHandle();
 	
-	// virtual void *CeiUnk2();
-	virtual void *CeiUnk3();
+	// virtual void *GetScriptDesc();
+	virtual void *Connect();
 	// virtual void Precache(int64_t *a2);
-	// virtual int64_t InitialSpawn();
-	virtual void CeiUnk6(int64_t *a2);
-	// virtual void CeiUnk7();
-	virtual void CeiUnk8(uint32_t a2, int64_t a3, int64_t a4);
-	// virtual void CeiUnk9();
-	// virtual bool CeiUnk10(int a2, int a3);
-	// virtual int64_t CeiReturnZero11();
-	// virtual int64_t CeiReturnZero12();
+	// virtual void AddedToEntityDatabase();
+	virtual void Spawn(int64_t *a2);
+	// virtual void PostDataUpdate();
+	virtual void Activate(uint32_t a2, int64_t a3, int64_t a4);
+	// virtual void UpdateOnRemove();
+	// virtual bool OnSetDormant(int a2, int a3);
+	// virtual int64_t PreDataUpdate();
+	// virtual int64_t DrawEntityDebugOverlays();
 	// virtual void CeiNullSub13();
 	// virtual bool CeiUnk14(int64_t a2);
 	// virtual void CeiUnk15(void *a2, int64_t a3, int a4);
-	// virtual int64_t CeiUnk16(int64_t a2);
-	// virtual int64_t CeiUnk17(void **a2);
-	// virtual bool CeiUnk18();
-	// virtual int64_t OnRestore();
-	// virtual int32_t CeiUnk20();
-	// virtual int *CeiUnk21(int *a2);
-	// virtual int64_t MaybeOnMemberChanged(int64_t memberOffset, int64_t a3, int64_t a4);
+	// virtual int64_t Save(int64_t a2);
+	// virtual int64_t Restore(void **a2);
+	// virtual bool OnSave();
+	// virtual void OnRestore();
+	// virtual int32_t ObjectCaps();
+	// virtual int RequiredEdictIndex();
+	// virtual int64_t NetworkStateChanged(int64_t memberOffset, int64_t a3, int64_t a4);
 	// virtual int64_t CeiUnk23(int64_t a2);
 	// virtual int64_t CeiUnk24(int64_t a2, int64_t a3);
 	// virtual bool CeiUnk25();
-	// virtual int16_t *CeiUnk26(int16_t *a2, int16_t *a3);
+	// virtual int16_t *AddChangeAccessorPath(int16_t *a2, int16_t *a3);
 	// virtual bool CeiUnk27();
 	// virtual bool CeiReturnZero28();
-	// virtual void **CeiUnk29(int64_t *a2);
+	// virtual void **ReloadPrivateScripts(int64_t *a2);
 	virtual int64_t *CeiUnk30();
 	virtual void CeiUnk31();
 	
