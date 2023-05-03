@@ -5177,23 +5177,14 @@ public:
 	*/
 	float realtime;
 	int framecount;
-	/*
-	// Non-paused frametime
-	float			absoluteframetime;
-	float			absoluteframestarttimestddev;
-	*/
+	
+	// Command queue related, first appear in 07/2020
 	uint8_t cgvbUnknown0[8];
 
 	// current maxplayers setting
 	int				maxClients;
 	
-	/*
-	// interpolation amount ( client-only ) based on fraction of next tick which has elapsed
-	float			interpolation_amount;
-	int				simTicksThisFrame;
-
-	int				network_protocol;
-	*/
+	// Command queue related, first appear in 07/2020
 	uint8_t cgvbUnknown1[12];
 	
 	void *m_pfnWarningFunc;
@@ -5225,6 +5216,7 @@ public:
 
 	int				network_protocol;
 	*/
+	// Unused as far as the server dll is concerned.
 	uint8_t cgvbUnknown2[12];
 	
 	bool m_bInSimulation;
