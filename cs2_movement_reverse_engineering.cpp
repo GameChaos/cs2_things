@@ -445,6 +445,14 @@ enum EntityEffect_t
 	EF_MAX_BITS                     = 15
 };
 
+enum MapLoadType_t
+{
+	MapLoad_NewGame = 0,
+	MapLoad_LoadGame,
+	MapLoad_Transition,
+	MapLoad_Background,
+};
+
 class Vector2D
 {
 public:
@@ -5166,9 +5174,32 @@ public:
 	float			realtime;
 	// Absolute frame counter - continues to increase even if game is paused
 	int				framecount;
+	*/
+	float realtime;
+	int framecount;
+	/*
 	// Non-paused frametime
 	float			absoluteframetime;
 	float			absoluteframestarttimestddev;
+	*/
+	uint8_t cgvbUnknown0[8];
+
+	// current maxplayers setting
+	int				maxClients;
+	
+	/*
+	// interpolation amount ( client-only ) based on fraction of next tick which has elapsed
+	float			interpolation_amount;
+	int				simTicksThisFrame;
+
+	int				network_protocol;
+	*/
+	uint8_t cgvbUnknown1[12];
+	
+	void *m_pfnWarningFunc;
+	
+	// Time spent on last server or client frame (has nothing to do with think intervals)
+	float			frametime;
 
 	// Current time 
 	//
@@ -5185,42 +5216,46 @@ public:
 	//
 	//   - During prediction, this is based on the client's current tick:
 	//     [client_current_tick * tick_interval]
-	*/
-	// Time spent on last server or client frame (has nothing to do with think intervals)
-	uint8_t unknown0[0x10];
-	int maxClients;
-	uint8_t unknown1[0x10];
-	int tickcount;
-	float frametime;
-	float curtime;
-	uint8_t unknown2[0x3C];
+	float			curtime;
+	
 	/*
-	// current maxplayers setting
-	int				maxClients;
+	// interpolation amount ( client-only ) based on fraction of next tick which has elapsed
+	float			interpolation_amount;
+	int				simTicksThisFrame;
+
+	int				network_protocol;
+	*/
+	uint8_t cgvbUnknown2[12];
+	
+	bool m_bInSimulation;
+	bool m_bEnableAssertion;
+	uint8_t cgvbUnknown3[2]; // Probably padding.
+	
 
 	// Simulation ticks - does not increase when game is paused
 	int				tickcount;
 
 	// Simulation tick interval
 	float			interval_per_tick;
+};
 
-	// interpolation amount ( client-only ) based on fraction of next tick which has elapsed
-	float			interpolation_amount;
-	int				simTicksThisFrame;
+class CGlobalVars : public CGlobalVarsBase
+{
+public:
+	// Current map
+	char			*mapname;
+	char*			startspot;
+	MapLoadType_t	eLoadType;		// How the current map was loaded
+	
+	// game specific flags
+	bool			teamplay;
+	
+	/*
+	// current maxentities
+	int				maxEntities;
 
-	int				network_protocol;
-
-	// current saverestore data
-	void *pSaveData; // CSaveRestoreData *
-
-	// Set to true in client code.
-	bool			m_bClient;
-	// true if we are a remote clinet (needs prediction & interpolation - server not on this machine) as opposed to split-screen or local
-	bool			m_bRemoteClient;
-	// 100 (i.e., tickcount is rounded down to this base and then the "delta" from this base is networked
-	int				nTimestampNetworkingBase;   
-	// 32 (entindex() % nTimestampRandomizeWindow ) is subtracted from gpGlobals->tickcount to set the networking basis, prevents
-	//  all of the entities from forcing a new PackedEntity on the same tick (i.e., prevents them from getting lockstepped on this)
-	int				nTimestampRandomizeWindow;  
+	int				serverCount;
+	edict_t			*pEdicts;
 	*/
+	uint8_t cgvUnknown[19];
 };
