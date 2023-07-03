@@ -5143,7 +5143,7 @@ public:
 	float m_flForwardMove; // 0x20	
 	float m_flSideMove; // 0x24
 	float m_flUpMove; // 0x28
-	uint8_t unknown2[4]; // 0x2c
+	uint8_t unknown2[0x10]; // 0x2c
 	Vector m_vecVelocity; // 0x30
 	Vector m_vecAngles; // 0x3c
 	uint8_t unknown3[0x38];
