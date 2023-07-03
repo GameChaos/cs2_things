@@ -1040,7 +1040,7 @@ class CNetworkTransmitComponent // : public
 public:
 	uint8_t unknown0[0x16c];
 	uint8_t m_nTransmitStateOwnedCounter; 	// 0x16c
-	uint8_t unknown1[0x33];
+	uint8_t unknown1[0x43];
 };
 
 // Size: 0x18
@@ -1364,7 +1364,7 @@ public:
 };
 
 // Alignment: 77
-// Size: 0x4a0
+// Size: 0x4b0
 class CBaseEntity : public CEntityInstance
 {
 public:
@@ -1828,7 +1828,7 @@ public:
 };
 
 // Alignment: 26
-// Size: 0x6f0
+// Size: 0x700
 class CBaseModelEntity : public CBaseEntity
 {
 public:
@@ -2404,27 +2404,36 @@ public:
 	virtual void CbagNullSub249();
 	virtual int64_t CbagUnk250(int64_t a2, char *a3);
 	
-	uint8_t unknown0[0x10];
+	uint8_t __pad0700[0x8]; // 0x700
 	// MNetworkEnable
-	PhysicsRagdollPose_t *m_pRagdollPose; 	// 0x700
+	bool m_bInitiallyPopulateInterpHistory; // 0x708	
+	// MNetworkEnable
+	bool m_bShouldAnimateDuringGameplayPause; // 0x709	
+	uint8_t __pad070a[0x6]; // 0x70a
+	IChoreoServices* m_pChoreoServices; // 0x710	
+	// MNetworkEnable
+	bool m_bAnimGraphUpdateEnabled; // 0x718	
+	uint8_t __pad0719[0x93]; // 0x719
+	// MNetworkDisable
+	float m_flLastEventAnimTime; // 0x7ac	
+	uint8_t __pad07b0[0x4]; // 0x7b0
+	// MNetworkDisable
+	uint32_t m_hAnimationUpdate; // 0x7b4	AnimationUpdateListHandle_t
+	float m_flMaxSlopeDistance; // 0x7b8	
+	Vector m_vLastSlopeCheckPos; // 0x7bc	
+	bool m_bAnimGraphDirty; // 0x7c8	
+	uint8_t __pad07c9[0x3]; // 0x7c9
+	// MNetworkEnable
+	Vector m_vecForce; // 0x7cc	
+	// MNetworkEnable
+	int32_t m_nForceBone; // 0x7d8	
+	uint8_t __pad07dc[0x14]; // 0x7dc
+	// MNetworkEnable
+	PhysicsRagdollPose_t* m_pRagdollPose; // 0x7f0	
 	// MNetworkEnable
 	// MNetworkChangeCallback "OnClientRagdollChanged"
-	bool m_bClientRagdoll; 	// 0x708
-	// MNetworkEnable
-	Vector m_vecForce; 	// 0x70c
-	// MNetworkEnable
-	int32_t m_nForceBone; 	// 0x718
-	// MNetworkEnable
-	bool m_bShouldAnimateDuringGameplayPause; 	// 0x71c
-	// MNetworkEnable
-	bool m_bAnimGraphUpdateEnabled; 	// 0x71d
-	// MNetworkEnable
-	bool m_bInitiallyPopulateInterpHistory; 	// 0x71e
-	float m_flMaxSlopeDistance; 	// 0x720
-	Vector m_vLastSlopeCheckPos; 	// 0x724
-	IChoreoServices *m_pChoreoServices; 	// 0x730
-	bool m_bAnimGraphDirty; 	// 0x738
-	uint8_t unknown1[0xE7];
+	bool m_bClientRagdoll; // 0x7f8
+	uint8_t __pad07f9[0x137]; // 0x7f9
 };
 
 // Alignment: 7
@@ -3704,9 +3713,10 @@ public:
 	// MNetworkEnable
 	CPlayer_MovementServices *m_pMovementServices; 	// 0x9a8
 	uint8_t unknown0[8];
+	uint8_t m_ServerViewAngleChanges[0x50]; // 0xac8	CUtlVectorEmbeddedNetworkVar< ViewAngleServerChange_t >
+	uint32_t m_nHighestGeneratedServerViewAngleChangeIndex; // 0xb18	
 	Vector v_angle; 	// 0x9b8
-	uint8_t unknown1[0x4]; // 0x9c4
-	Vector m_unknownVec0; // 0x9c8 used in CPlayer_MovementServices::Unk20
+	Vector v_anglePrevious; // 0x9c8
 	// MNetworkEnable
 	// MNetworkUserGroup "LocalPlayerExclusive"
 	uint32_t m_iHideHUD; 	// 0x9d4
@@ -3718,7 +3728,6 @@ public:
 	float m_flDeathTime; 	// 0xa6c
 	float m_fNextSuicideTime; 	// 0xa70
 	bool m_fInitHUD; 	// 0xa74
-	float m_flNextDecalTime; 	// 0xa78
 	CAI_Expresser *m_pExpresser; 	// 0xa80
 	// MNetworkEnable
 	CHandle m_hController; 	// 0xa88 CHandle< CBasePlayerController >
@@ -3734,7 +3743,8 @@ public:
 class CTouchExpansionComponent : public CEntityComponent
 {
 public:
-	uint8_t unknown[0x18];
+	void *vtable;
+	uint8_t unknown[0x40];
 };
 
 // Alignment: 6
@@ -4386,22 +4396,10 @@ public:
 	// MNetworkEnable
 	int32_t m_nHeavyAssaultSuitCooldownRemaining; // 0xc94
 	bool m_bResetArmorNextSpawn; // 0xc98
-
-	uint8_t unknown9[0x3]; // 0xc99
-
 	// MNetworkEnable
-	float m_flLastExoJumpTime; // 0xc9c
 	float m_flLastBumpMineBumpTime; // 0xca0
-
-	uint8_t unknown10[0xc]; // 0xca4
-
 	// MNetworkEnable
 	float m_flEmitSoundTime; // 0xcb0
-	bool m_bEscaped; // 0xcb4
-	bool m_bIsVIP; // 0xcb5
-
-	uint8_t unknown11[0x2]; // 0xcb6
-
 	int32_t m_iNumSpawns; // 0xcb8
 	int32_t m_iShouldHaveCash; // 0xcbc
 	bool m_bJustKilledTeammate; // 0xcc0
@@ -4591,9 +4589,6 @@ public:
 	uint32_t m_vecPlayerPatchEconIndices[5]; 	// 0x12e0
 	int32_t m_iDeathFlags; 	// 0x12f4
 	CHandle m_hPet; // 0x12f8
-	float m_flLastKnownAccumulatedWeaponEncumbrance; 	// 0x12fc
-	float m_flLastTimeComputedAccumulatedWeaponEncumbrance; 	// 0x1300
-
 	uint8_t unknown26[0x1cc]; // 0x1304
 
 	// MNetworkEnable
@@ -5081,6 +5076,7 @@ public:
 	CEconItemView m_EconGloves; 	// 0x1878
 	// MNetworkEnable
 	Vector m_qDeathEyeAngles; 	// 0x1af0
+	bool m_bSkipOneHeadConstraintUpdate; // 0x1c6c
 };
 
 class CMoveDataSource1
