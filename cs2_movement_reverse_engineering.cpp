@@ -777,12 +777,20 @@ public:
 	int32_t m_nRoundFootstepsMade; 	// 0x13ac
 	// MNetworkEnable
 	bool m_bOldJumpPressed; 	// 0x13b0
+	float m_flJumpPressedTime; // 0x13cc
 	// MNetworkEnable
 	float m_flJumpUntil; 	// 0x13b4
 	// MNetworkEnable
 	float m_flJumpVel; 	// 0x13b8
 	// MNetworkEnable
 	float m_fStashGrenadeParameterWhen; 	// 0x13bc
+	uint8_t __pad13dc[0x4]; // 0x13dc
+	// MNetworkEnable
+	uint64_t m_nButtonDownMaskPrev; // 0x13e0	
+	// MNetworkEnable
+	float m_flOffsetTickCompleteTime; // 0x13e8	
+	// MNetworkEnable
+	float m_flOffsetTickStashedSpeed; // 0x13ec	
 };
 
 // Alignment: 0
