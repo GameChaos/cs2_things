@@ -580,10 +580,11 @@ public:
 	// MNetworkEncodeFlags
 	float m_flMaxspeed; 	// 0x190
 	// MNetworkEnable
-	float m_flForceSubtickMoveWhen; 	// 0x194
+	float m_arrForceSubtickMoveWhen[4]; 	// 0x194
 	float m_flForwardMove; 	// 0x198
 	float m_flLeftMove; 	// 0x19c
 	float m_flUpMove; 	// 0x1a0
+	Vector m_vecLastMovementImpulses; 	// 0x1a4
 	Vector m_vecOldViewAngles; 	// 0x1a4
 	uint8_t unknown[8];
 };
