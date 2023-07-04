@@ -587,10 +587,11 @@ public:
 	// MNetworkEncodeFlags
 	float m_flMaxspeed; 	// 0x190
 	// MNetworkEnable
-	float m_flForceSubtickMoveWhen; 	// 0x194
+	float m_arrForceSubtickMoveWhen[4]; 	// 0x194
 	float m_flForwardMove; 	// 0x198
 	float m_flLeftMove; 	// 0x19c
 	float m_flUpMove; 	// 0x1a0
+	Vector m_vecLastMovementImpulses; 	// 0x1a4
 	Vector m_vecOldViewAngles; 	// 0x1a4
 	uint8_t unknown[8];
 };
@@ -783,12 +784,20 @@ public:
 	int32_t m_nRoundFootstepsMade; 	// 0x13ac
 	// MNetworkEnable
 	bool m_bOldJumpPressed; 	// 0x13b0
+	float m_flJumpPressedTime; // 0x13cc
 	// MNetworkEnable
 	float m_flJumpUntil; 	// 0x13b4
 	// MNetworkEnable
 	float m_flJumpVel; 	// 0x13b8
 	// MNetworkEnable
 	float m_fStashGrenadeParameterWhen; 	// 0x13bc
+	uint8_t __pad13dc[0x4]; // 0x13dc
+	// MNetworkEnable
+	uint64_t m_nButtonDownMaskPrev; // 0x13e0	
+	// MNetworkEnable
+	float m_flOffsetTickCompleteTime; // 0x13e8	
+	// MNetworkEnable
+	float m_flOffsetTickStashedSpeed; // 0x13ec	
 };
 
 // Alignment: 0
@@ -1045,7 +1054,7 @@ class CNetworkTransmitComponent // : public
 public:
 	uint8_t unknown0[0x16c];
 	uint8_t m_nTransmitStateOwnedCounter; 	// 0x16c
-	uint8_t unknown1[0x33];
+	uint8_t unknown1[0x43];
 };
 
 // Size: 0x18
@@ -1369,7 +1378,7 @@ public:
 };
 
 // Alignment: 77
-// Size: 0x4a0
+// Size: 0x4b0
 class CBaseEntity : public CEntityInstance
 {
 public:
@@ -1833,7 +1842,7 @@ public:
 };
 
 // Alignment: 26
-// Size: 0x6f0
+// Size: 0x700
 class CBaseModelEntity : public CBaseEntity
 {
 public:
@@ -2409,27 +2418,36 @@ public:
 	virtual void CbagNullSub249();
 	virtual int64_t CbagUnk250(int64_t a2, char *a3);
 	
-	uint8_t unknown0[0x10];
+	uint8_t __pad0700[0x8]; // 0x700
 	// MNetworkEnable
-	PhysicsRagdollPose_t *m_pRagdollPose; 	// 0x700
+	bool m_bInitiallyPopulateInterpHistory; // 0x708	
+	// MNetworkEnable
+	bool m_bShouldAnimateDuringGameplayPause; // 0x709	
+	uint8_t __pad070a[0x6]; // 0x70a
+	IChoreoServices* m_pChoreoServices; // 0x710	
+	// MNetworkEnable
+	bool m_bAnimGraphUpdateEnabled; // 0x718	
+	uint8_t __pad0719[0x93]; // 0x719
+	// MNetworkDisable
+	float m_flLastEventAnimTime; // 0x7ac	
+	uint8_t __pad07b0[0x4]; // 0x7b0
+	// MNetworkDisable
+	uint32_t m_hAnimationUpdate; // 0x7b4	AnimationUpdateListHandle_t
+	float m_flMaxSlopeDistance; // 0x7b8	
+	Vector m_vLastSlopeCheckPos; // 0x7bc	
+	bool m_bAnimGraphDirty; // 0x7c8	
+	uint8_t __pad07c9[0x3]; // 0x7c9
+	// MNetworkEnable
+	Vector m_vecForce; // 0x7cc	
+	// MNetworkEnable
+	int32_t m_nForceBone; // 0x7d8	
+	uint8_t __pad07dc[0x14]; // 0x7dc
+	// MNetworkEnable
+	PhysicsRagdollPose_t* m_pRagdollPose; // 0x7f0	
 	// MNetworkEnable
 	// MNetworkChangeCallback "OnClientRagdollChanged"
-	bool m_bClientRagdoll; 	// 0x708
-	// MNetworkEnable
-	Vector m_vecForce; 	// 0x70c
-	// MNetworkEnable
-	int32_t m_nForceBone; 	// 0x718
-	// MNetworkEnable
-	bool m_bShouldAnimateDuringGameplayPause; 	// 0x71c
-	// MNetworkEnable
-	bool m_bAnimGraphUpdateEnabled; 	// 0x71d
-	// MNetworkEnable
-	bool m_bInitiallyPopulateInterpHistory; 	// 0x71e
-	float m_flMaxSlopeDistance; 	// 0x720
-	Vector m_vLastSlopeCheckPos; 	// 0x724
-	IChoreoServices *m_pChoreoServices; 	// 0x730
-	bool m_bAnimGraphDirty; 	// 0x738
-	uint8_t unknown1[0xE7];
+	bool m_bClientRagdoll; // 0x7f8
+	uint8_t __pad07f9[0x137]; // 0x7f9
 };
 
 // Alignment: 7
@@ -3709,9 +3727,10 @@ public:
 	// MNetworkEnable
 	CPlayer_MovementServices *m_pMovementServices; 	// 0x9a8
 	uint8_t unknown0[8];
+	uint8_t m_ServerViewAngleChanges[0x50]; // 0xac8	CUtlVectorEmbeddedNetworkVar< ViewAngleServerChange_t >
+	uint32_t m_nHighestGeneratedServerViewAngleChangeIndex; // 0xb18	
 	Vector v_angle; 	// 0x9b8
-	uint8_t unknown1[0x4]; // 0x9c4
-	Vector m_unknownVec0; // 0x9c8 used in CPlayer_MovementServices::Unk20
+	Vector v_anglePrevious; // 0x9c8
 	// MNetworkEnable
 	// MNetworkUserGroup "LocalPlayerExclusive"
 	uint32_t m_iHideHUD; 	// 0x9d4
@@ -3723,7 +3742,6 @@ public:
 	float m_flDeathTime; 	// 0xa6c
 	float m_fNextSuicideTime; 	// 0xa70
 	bool m_fInitHUD; 	// 0xa74
-	float m_flNextDecalTime; 	// 0xa78
 	CAI_Expresser *m_pExpresser; 	// 0xa80
 	// MNetworkEnable
 	CHandle m_hController; 	// 0xa88 CHandle< CBasePlayerController >
@@ -3739,7 +3757,8 @@ public:
 class CTouchExpansionComponent : public CEntityComponent
 {
 public:
-	uint8_t unknown[0x18];
+	void *vtable;
+	uint8_t unknown[0x40];
 };
 
 // Alignment: 6
@@ -4391,22 +4410,10 @@ public:
 	// MNetworkEnable
 	int32_t m_nHeavyAssaultSuitCooldownRemaining; // 0xc94
 	bool m_bResetArmorNextSpawn; // 0xc98
-
-	uint8_t unknown9[0x3]; // 0xc99
-
 	// MNetworkEnable
-	float m_flLastExoJumpTime; // 0xc9c
 	float m_flLastBumpMineBumpTime; // 0xca0
-
-	uint8_t unknown10[0xc]; // 0xca4
-
 	// MNetworkEnable
 	float m_flEmitSoundTime; // 0xcb0
-	bool m_bEscaped; // 0xcb4
-	bool m_bIsVIP; // 0xcb5
-
-	uint8_t unknown11[0x2]; // 0xcb6
-
 	int32_t m_iNumSpawns; // 0xcb8
 	int32_t m_iShouldHaveCash; // 0xcbc
 	bool m_bJustKilledTeammate; // 0xcc0
@@ -4596,9 +4603,6 @@ public:
 	uint32_t m_vecPlayerPatchEconIndices[5]; 	// 0x12e0
 	int32_t m_iDeathFlags; 	// 0x12f4
 	CHandle m_hPet; // 0x12f8
-	float m_flLastKnownAccumulatedWeaponEncumbrance; 	// 0x12fc
-	float m_flLastTimeComputedAccumulatedWeaponEncumbrance; 	// 0x1300
-
 	uint8_t unknown26[0x1cc]; // 0x1304
 
 	// MNetworkEnable
@@ -5086,6 +5090,7 @@ public:
 	CEconItemView m_EconGloves; 	// 0x1878
 	// MNetworkEnable
 	Vector m_qDeathEyeAngles; 	// 0x1af0
+	bool m_bSkipOneHeadConstraintUpdate; // 0x1c6c
 };
 
 class CMoveDataSource1
@@ -5144,7 +5149,7 @@ public:
 	float m_flForwardMove; // 0x20	
 	float m_flSideMove; // 0x24
 	float m_flUpMove; // 0x28
-	uint8_t unknown2[4]; // 0x2c
+	uint8_t unknown2[0x10]; // 0x2c
 	Vector m_vecVelocity; // 0x30
 	Vector m_vecAngles; // 0x3c
 	uint8_t unknown3[0x38];
@@ -5165,89 +5170,24 @@ public:
 	Vector m_outWishVel; // 0xd4
 };
 
+// Size: 0x78
+// TODO: rename to CGlobalVars, or inherit CGlobalVars from this
 class CGlobalVarsBase
 {
 public:
-	/*
-	// Absolute time (per frame still - Use Plat_FloatTime() for a high precision real time 
-	//  perf clock, but not that it doesn't obey host_timescale/host_framerate)
-	float			realtime;
-	// Absolute frame counter - continues to increase even if game is paused
-	int				framecount;
-	*/
-	float realtime;
-	int framecount;
+	uint8_t unknown0[0x10];
+	int maxClients;
+	uint8_t unknown1[0xc];
+	uint64_t (*MaybeCheckCurtime)(int isInSimulation);
+	float frametime; // 0x28
+	float curtime; // 0x2C
+	uint8_t unknown2[0x10];
+	int tickcount; // 0x40
+	float interval_per_tick; // 0x44
 	
-	// Command queue related, first appear in 07/2020
-	uint8_t cgvbUnknown0[8];
-
-	// current maxplayers setting
-	int				maxClients;
-	
-	// Command queue related, first appear in 07/2020
-	uint8_t cgvbUnknown1[12];
-	
-	void *m_pfnWarningFunc;
-	
-	// Time spent on last server or client frame (has nothing to do with think intervals)
-	float			frametime;
-
-	// Current time 
-	//
-	// On the client, this (along with tickcount) takes a different meaning based on what
-	// piece of code you're in:
-	// 
-	//   - While receiving network packets (like in PreDataUpdate/PostDataUpdate and proxies),
-	//     this is set to the SERVER TICKCOUNT for that packet. There is no interval between
-	//     the server ticks.
-	//     [server_current_Tick * tick_interval]
-	//
-	//   - While rendering, this is the exact client clock 
-	//     [client_current_tick * tick_interval + interpolation_amount]
-	//
-	//   - During prediction, this is based on the client's current tick:
-	//     [client_current_tick * tick_interval]
-	float			curtime;
-	
-	/*
-	// interpolation amount ( client-only ) based on fraction of next tick which has elapsed
-	float			interpolation_amount;
-	int				simTicksThisFrame;
-
-	int				network_protocol;
-	*/
-	// Unused as far as the server dll is concerned.
-	uint8_t cgvbUnknown2[12];
-	
-	bool m_bInSimulation;
-	bool m_bEnableAssertion;
-	uint8_t cgvbUnknown3[2]; // Probably padding.
-	
-
-	// Simulation ticks - does not increase when game is paused
-	int				tickcount;
-
-	// Simulation tick interval
-	float			interval_per_tick;
-};
-
-class CGlobalVars : public CGlobalVarsBase
-{
-public:
-	// Current map
-	char			*mapname;
-	char*			startspot;
-	MapLoadType_t	eLoadType;		// How the current map was loaded
-	
-	// game specific flags
-	bool			teamplay;
-	
-	/*
-	// current maxentities
-	int				maxEntities;
-
-	int				serverCount;
-	edict_t			*pEdicts;
-	*/
-	uint8_t cgvUnknown[19];
+	// now CGlobalVars maybe
+	char *mapname; // 0x48
+	uint8_t unknown3[0xc];
+	bool mp_teamplay; // 0x5c
+	uint8_t unknown4[0x1b];
 };
