@@ -5165,20 +5165,29 @@ public:
 };
 
 // Size: 0x78
-// TODO: rename to CGlobalVars, or inherit CGlobalVars from this
 class CGlobalVarsBase
 {
 public:
-	uint8_t unknown0[0x10];
+	float realtime;
+	int framecount;
+	float absoluteframetime;
+	float absoluteframestarttimestddev;
+	
 	int maxClients;
+	
 	uint8_t unknown1[0xc];
+	
 	uint64_t (*MaybeCheckCurtime)(int isInSimulation);
 	float frametime; // 0x28
 	float curtime; // 0x2C
 	uint8_t unknown2[0x10];
 	int tickcount; // 0x40
 	float interval_per_tick; // 0x44
-	
+};
+
+class CGlobalVars : public CGlobalVarsBase
+{
+public:
 	// now CGlobalVars maybe
 	char *mapname; // 0x48
 	uint8_t unknown3[0xc];
