@@ -446,6 +446,39 @@ enum EntityEffect_t
 	EF_MAX_BITS                     = 15
 };
 
+// Alignment: 4
+// Size: 0x7
+enum PlayerConnectedState : uint32_t
+{
+	PlayerNeverConnected = 0xffffffffffffffff,
+	PlayerConnected = 0x0,
+	PlayerConnecting = 0x1,
+	PlayerReconnecting = 0x2,
+	PlayerDisconnecting = 0x3,
+	PlayerDisconnected = 0x4,
+	PlayerReserved = 0x5,
+};
+
+// Alignment: 4
+// Size: 0x3
+enum ChatIgnoreType_t : uint32_t
+{
+	CHAT_IGNORE_NONE = 0x0,
+	CHAT_IGNORE_ALL = 0x1,
+	CHAT_IGNORE_TEAM = 0x2,
+};
+
+// Alignment: 4
+// Size: 0x5
+enum MedalRank_t : uint32_t
+{
+	MEDAL_RANK_NONE = 0x0,
+	MEDAL_RANK_BRONZE = 0x1,
+	MEDAL_RANK_SILVER = 0x2,
+	MEDAL_RANK_GOLD = 0x3,
+	MEDAL_RANK_COUNT = 0x4,
+};
+
 class Vector2D
 {
 public:
@@ -494,6 +527,14 @@ public:
 	uint8_t unknown0[0x20];
 	int16_t m_PathIndex; 	// 0x20
 	uint8_t unknown1[6];
+};
+
+// Alignment: 1
+// Size: 0x4
+struct GameTime_t
+{
+public:
+	float m_Value; // 0x0	
 };
 
 class CCSPlayerPawn;
@@ -5085,6 +5126,358 @@ public:
 	// MNetworkEnable
 	Vector m_qDeathEyeAngles; 	// 0x1af0
 	bool m_bSkipOneHeadConstraintUpdate; // 0x1c6c
+};
+
+// Alignment: 25
+// Size: 0x690
+class CBasePlayerController : public CBaseEntity
+{
+public:
+	uint8_t __pad04b0[0x8]; // 0x4b0
+	uint64_t m_nInButtonsWhichAreToggles; // 0x4b8
+	// MNetworkEnable
+	// MNetworkPriority "1"
+	// MNetworkUserGroup "LocalPlayerExclusive"
+	uint32_t m_nTickBase; // 0x4c0
+	uint8_t __pad04c4[0x2c]; // 0x4c4
+	// MNetworkEnable
+	// MNetworkChangeCallback "OnPawnChanged"
+	CHandle m_hPawn; // 0x4f0	CHandle< CBasePlayerPawn >
+	int m_nSplitScreenSlot; // 0x4f4	CSplitScreenSlot
+	CHandle m_hSplitOwner; // 0x4f8	< CBasePlayerController >
+	uint8_t __pad04fc[0x4]; // 0x4fc
+	CUtlVector m_hSplitScreenPlayers; // 0x500	< CHandle< CBasePlayerController > >
+	bool m_bIsHLTV; // 0x518
+	uint8_t __pad0519[0x3]; // 0x519
+	// MNetworkEnable
+	// MNetworkChangeCallback "OnConnectionStateChanged"
+	PlayerConnectedState m_iConnected; // 0x51c
+	// MNetworkEnable
+	// MNetworkChangeCallback "OnPlayerControllerNameChanged"
+	char m_iszPlayerName[128]; // 0x520
+	CUtlString m_szNetworkIDString; // 0x5a0
+	float m_fLerpTime; // 0x5a8
+	bool m_bLagCompensation; // 0x5ac
+	bool m_bPredict; // 0x5ad
+	bool m_bAutoKickDisabled; // 0x5ae
+	bool m_bIsLowViolence; // 0x5af
+	bool m_bGamePaused; // 0x5b0
+	uint8_t __pad05b1[0x77]; // 0x5b1
+	int32_t m_nHighestCommandNumberReceived; // 0x628
+	uint8_t __pad062c[0x4]; // 0x62c
+	int64_t m_nUsecTimestampLastUserCmdReceived; // 0x630
+	uint8_t __pad0638[0x10]; // 0x638
+	ChatIgnoreType_t m_iIgnoreGlobalChat; // 0x648
+	float m_flLastPlayerTalkTime; // 0x64c
+	float m_flLastEntitySteadyState; // 0x650
+	int32_t m_nAvailableEntitySteadyState; // 0x654
+	bool m_bHasAnySteadyStateEnts; // 0x658
+	uint8_t __pad0659[0xf]; // 0x659
+	// MNetworkEnable
+	// MNetworkEncoder
+	// MNetworkChangeCallback "OnSteamIDChanged"
+	uint64_t m_steamID; // 0x668
+	// MNetworkEnable
+	uint32_t m_iDesiredFOV; // 0x670
+};
+
+// Alignment: 2
+// Size: 0x10
+class IntervalTimer
+{
+public:
+	uint8_t __pad0000[0x8]; // 0x0
+	// MNetworkEnable
+	GameTime_t m_timestamp; // 0x8
+	// MNetworkEnable
+	WorldGroupId_t m_nWorldGroupId; // 0xc
+};
+
+// Alignment: 1
+// Size: 0x40
+class CPlayerControllerComponent
+{
+	uint8_t __pad0000[0x8]; // 0x0
+	// MNetworkDisable
+	// MNetworkChangeAccessorFieldPathIndex
+	CNetworkVarChainer __m_pChainEntity; // 0x8	
+};
+
+// Alignment: 6
+// Size: 0x58
+class CCSPlayerController_InGameMoneyServices : public CPlayerControllerComponent
+{
+public:
+	bool m_bReceivesMoneyNextRound; // 0x40
+	uint8_t __pad0041[0x3]; // 0x41
+	int32_t m_iAccountMoneyEarnedForNextRound; // 0x44
+	// MNetworkEnable
+	int32_t m_iAccount; // 0x48
+	// MNetworkEnable
+	int32_t m_iStartAccount; // 0x4c
+	// MNetworkEnable
+	int32_t m_iTotalCashSpent; // 0x50
+	// MNetworkEnable
+	int32_t m_iCashSpentThisRound; // 0x54
+};
+
+// Alignment: 9
+// Size: 0xff0
+class CCSPlayerController_InventoryServices : public CPlayerControllerComponent
+{
+public:
+	// MNetworkEnable
+	uint16_t m_unMusicID; // 0x40
+	uint8_t __pad0042[0x2]; // 0x42
+	// MNetworkEnable
+	MedalRank_t m_rank[6]; // 0x44
+	// MNetworkEnable
+	int32_t m_nPersonaDataPublicLevel; // 0x5c
+	// MNetworkEnable
+	int32_t m_nPersonaDataPublicCommendsLeader; // 0x60
+	// MNetworkEnable
+	int32_t m_nPersonaDataPublicCommendsTeacher; // 0x64
+	// MNetworkEnable
+	int32_t m_nPersonaDataPublicCommendsFriendly; // 0x68
+	uint8_t __pad006c[0xedc]; // 0x6c
+	uint32_t m_unEquippedPlayerSprayIDs[1]; // 0xf48
+	uint8_t __pad0f4c[0x4]; // 0xf4c
+	// MNetworkEnable
+	CUtlVectorEmbeddedNetworkVar m_vecTerroristLoadoutCache; // 0xf50 CUtlVectorEmbeddedNetworkVar< CEconItemView >
+	// MNetworkEnable
+	CUtlVectorEmbeddedNetworkVar m_vecCounterTerroristLoadoutCache; // 0xfa0
+};
+
+// Alignment: 19
+// Size: 0xb8
+struct CSMatchStats_t : public CSPerRoundStats_t
+{
+public:
+	// MNetworkEnable
+	int32_t m_iEnemy5Ks; // 0x68	
+	// MNetworkEnable
+	int32_t m_iEnemy4Ks; // 0x6c	
+	// MNetworkEnable
+	int32_t m_iEnemy3Ks; // 0x70	
+	int32_t m_iEnemy2Ks; // 0x74	
+	int32_t m_iUtility_Count; // 0x78	
+	int32_t m_iUtility_Successes; // 0x7c	
+	int32_t m_iUtility_Enemies; // 0x80	
+	int32_t m_iFlash_Count; // 0x84	
+	int32_t m_iFlash_Successes; // 0x88	
+	int32_t m_nHealthPointsRemovedTotal; // 0x8c	
+	int32_t m_nHealthPointsDealtTotal; // 0x90	
+	int32_t m_nShotsFiredTotal; // 0x94	
+	int32_t m_nShotsOnTargetTotal; // 0x98	
+	int32_t m_i1v1Count; // 0x9c	
+	int32_t m_i1v1Wins; // 0xa0	
+	int32_t m_i1v2Count; // 0xa4	
+	int32_t m_i1v2Wins; // 0xa8	
+	int32_t m_iEntryCount; // 0xac	
+	int32_t m_iEntryWins; // 0xb0	
+};
+
+// Alignment: 13
+// Size: 0x68
+struct CSPerRoundStats_t
+{
+public:
+	uint8_t __pad0000[0x30]; // 0x0
+	// MNetworkEnable
+	int32_t m_iKills; // 0x30	
+	// MNetworkEnable
+	int32_t m_iDeaths; // 0x34	
+	// MNetworkEnable
+	int32_t m_iAssists; // 0x38	
+	// MNetworkEnable
+	// MNetworkUserGroup "AllPlayersDuringFreezePeriod"
+	int32_t m_iDamage; // 0x3c	
+	// MNetworkEnable
+	// MNetworkUserGroup "TeammateAndSpectatorExclusive"
+	int32_t m_iEquipmentValue; // 0x40	
+	// MNetworkEnable
+	// MNetworkUserGroup "TeammateAndSpectatorExclusive"
+	int32_t m_iMoneySaved; // 0x44	
+	// MNetworkEnable
+	// MNetworkUserGroup "TeammateAndSpectatorExclusive"
+	int32_t m_iKillReward; // 0x48	
+	// MNetworkEnable
+	int32_t m_iLiveTime; // 0x4c	
+	// MNetworkEnable
+	int32_t m_iHeadShotKills; // 0x50	
+	// MNetworkEnable
+	// MNetworkUserGroup "AllPlayersDuringFreezePeriod"
+	int32_t m_iObjective; // 0x54	
+	// MNetworkEnable
+	// MNetworkUserGroup "TeammateAndSpectatorExclusive"
+	int32_t m_iCashEarned; // 0x58	
+	// MNetworkEnable
+	// MNetworkUserGroup "AllPlayersDuringFreezePeriod"
+	int32_t m_iUtilityDamage; // 0x5c	
+	// MNetworkEnable
+	// MNetworkUserGroup "AllPlayersDuringFreezePeriod"
+	int32_t m_iEnemiesFlashed; // 0x60	
+};
+
+// Alignment: 4
+// Size: 0x200
+class CCSPlayerController_ActionTrackingServices : public CPlayerControllerComponent
+{
+public:
+	// MNetworkEnable
+	CUtlVectorEmbeddedNetworkVar m_perRoundStats; // 0x40 CUtlVectorEmbeddedNetworkVar< CSPerRoundStats_t >
+	// MNetworkEnable
+	CSMatchStats_t m_matchStats; // 0x90
+	// MNetworkEnable
+	int32_t m_iNumRoundKills; // 0x148
+	// MNetworkEnable
+	int32_t m_iNumRoundKillsHeadshots; // 0x14c
+};
+
+// Alignment: 2
+// Size: 0x98
+class CCSPlayerController_DamageServices : public CPlayerControllerComponent
+{
+public:
+	// MNetworkEnable
+	// MNetworkUserGroup "LocalPlayerExclusiveDuringRoundEnd"
+	// MNetworkChangeCallback "OnDamageListUpdate"
+	int32_t m_nSendUpdate; // 0x40	
+	uint8_t __pad0044[0x4]; // 0x44
+	// MNetworkEnable
+	// MNetworkUserGroup "LocalPlayerExclusiveDuringRoundEnd"
+	CUtlVectorEmbeddedNetworkVar m_DamageList; // 0x48	CUtlVectorEmbeddedNetworkVar< CDamageRecord >
+};
+
+// Alignment: 66
+// Size: -0x700
+class CCSPlayerController : public CBasePlayerController
+{
+public:
+	uint8_t __pad0690[0x10]; // 0x690
+	// MNetworkEnable
+	CCSPlayerController_InGameMoneyServices* m_pInGameMoneyServices; // 0x6a0
+	// MNetworkEnable
+	CCSPlayerController_InventoryServices* m_pInventoryServices; // 0x6a8
+	// MNetworkEnable
+	CCSPlayerController_ActionTrackingServices* m_pActionTrackingServices; // 0x6b0
+	// MNetworkEnable
+	CCSPlayerController_DamageServices* m_pDamageServices; // 0x6b8
+	// MNetworkEnable
+	uint32_t m_iPing; // 0x6c0
+	// MNetworkEnable
+	bool m_bHasCommunicationAbuseMute; // 0x6c4
+	uint8_t __pad06c5[0x3]; // 0x6c5
+	// MNetworkEnable
+	CUtlSymbolLarge m_szCrosshairCodes; // 0x6c8
+	// MNetworkEnable
+	uint8_t m_iPendingTeamNum; // 0x6d0
+	uint8_t __pad06d1[0x3]; // 0x6d1
+	// MNetworkEnable
+	GameTime_t m_flForceTeamTime; // 0x6d4
+	// MNetworkEnable
+	int32_t m_iCompTeammateColor; // 0x6d8
+	// MNetworkEnable
+	bool m_bEverPlayedOnTeam; // 0x6dc
+	bool m_bAttemptedToGetColor; // 0x6dd
+	uint8_t __pad06de[0x2]; // 0x6de
+	int32_t m_iTeammatePreferredColor; // 0x6e0
+	bool m_bTeamChanged; // 0x6e4
+	bool m_bInSwitchTeam; // 0x6e5
+	bool m_bHasSeenJoinGame; // 0x6e6
+	bool m_bJustBecameSpectator; // 0x6e7
+	bool m_bSwitchTeamsOnNextRoundReset; // 0x6e8
+	uint8_t __pad06e9[0x7]; // 0x6e9
+	// MNetworkEnable
+	CUtlSymbolLarge m_szClan; // 0x6f0
+	char m_szClanName[32]; // 0x6f8
+	// MNetworkEnable
+	int32_t m_iCoachingTeam; // 0x718
+	uint8_t __pad071c[0x4]; // 0x71c
+	// MNetworkEnable
+	uint64_t m_nPlayerDominated; // 0x720
+	// MNetworkEnable
+	uint64_t m_nPlayerDominatingMe; // 0x728
+	// MNetworkEnable
+	int32_t m_iCompetitiveRanking; // 0x730
+	// MNetworkEnable
+	int32_t m_iCompetitiveWins; // 0x734
+	// MNetworkEnable
+	int8_t m_iCompetitiveRankType; // 0x738
+	uint8_t __pad0739[0x3]; // 0x739
+	// MNetworkEnable
+	int32_t m_nEndMatchNextMapVote; // 0x73c
+	// MNetworkEnable
+	uint16_t m_unActiveQuestId; // 0x740
+	uint8_t __pad0742[0x2]; // 0x742
+	// MNetworkEnable
+	int m_nQuestProgressReason; // 0x744 QuestProgress::Reason
+	// MNetworkEnable
+	uint32_t m_unPlayerTvControlFlags; // 0x748
+	uint8_t __pad074c[0x6c]; // 0x74c
+	int32_t m_iDraftIndex; // 0x7b8
+	uint32_t m_msQueuedModeDisconnectionTimestamp; // 0x7bc
+	uint32_t m_uiAbandonRecordedReason; // 0x7c0
+	bool m_bEverFullyConnected; // 0x7c4
+	bool m_bAbandonAllowsSurrender; // 0x7c5
+	bool m_bDisconnection1MinWarningPrinted; // 0x7c6
+	bool m_bScoreReported; // 0x7c7
+	// MNetworkEnable
+	int32_t m_nDisconnectionTick; // 0x7c8
+	uint8_t __pad07cc[0xc]; // 0x7cc
+	// MNetworkEnable
+	bool m_bControllingBot; // 0x7d8
+	// MNetworkEnable
+	bool m_bHasControlledBotThisRound; // 0x7d9
+	bool m_bHasBeenControlledByPlayerThisRound; // 0x7da
+	uint8_t __pad07db[0x1]; // 0x7db
+	int32_t m_nBotsControlledThisRound; // 0x7dc
+	// MNetworkEnable
+	bool m_bCanControlObservedBot; // 0x7e0
+	uint8_t __pad07e1[0x3]; // 0x7e1
+	// MNetworkEnable
+	CHandle m_hPlayerPawn; // 0x7e4 CHandle< CCSPlayerPawn >
+	// MNetworkEnable
+	CHandle m_hObserverPawn; // 0x7e8 CHandle< CCSObserverPawn >
+	int32_t m_DesiredObserverMode; // 0x7ec
+	CEntityHandle m_hDesiredObserverTarget; // 0x7f0
+	// MNetworkEnable
+	bool m_bPawnIsAlive; // 0x7f4
+	uint8_t __pad07f5[0x3]; // 0x7f5
+	// MNetworkEnable
+	uint32_t m_iPawnHealth; // 0x7f8
+	// MNetworkEnable
+	int32_t m_iPawnArmor; // 0x7fc
+	// MNetworkEnable
+	bool m_bPawnHasDefuser; // 0x800
+	// MNetworkEnable
+	bool m_bPawnHasHelmet; // 0x801
+	// MNetworkEnable
+	uint16_t m_nPawnCharacterDefIndex; // 0x802
+	// MNetworkEnable
+	int32_t m_iPawnLifetimeStart; // 0x804
+	// MNetworkEnable
+	int32_t m_iPawnLifetimeEnd; // 0x808
+	// MNetworkEnable
+	int32_t m_iPawnGunGameLevel; // 0x80c
+	// MNetworkEnable
+	int32_t m_iPawnBotDifficulty; // 0x810
+	// MNetworkEnable
+	CHandle m_hOriginalControllerOfCurrentPawn; // 0x814 CHandle< CCSPlayerController >
+	// MNetworkEnable
+	int32_t m_iScore; // 0x818
+	int32_t m_iRoundScore; // 0x81c
+	// MNetworkEnable
+	CNetworkUtlVectorBase m_vecKills; // 0x820 CNetworkUtlVectorBase< EKillTypes_t >
+	// MNetworkEnable
+	int32_t m_iMVPs; // 0x838
+	int32_t m_nUpdateCounter; // 0x83c
+	uint8_t __pad0840[0xf0a0]; // 0x840
+	IntervalTimer m_lastHeldVoteTimer; // 0xf8e0
+	uint8_t __padf8f0[0x8]; // 0xf8f0
+	bool m_bShowHints; // 0xf8f8
+	uint8_t __padf8f9[0x3]; // 0xf8f9
+	int32_t m_iNextTimeCheck; // 0xf8fc
 };
 
 class CMoveDataSource1
