@@ -31,12 +31,13 @@ static main()
 		return;
 	}
 
-	skipAmt = AskLong(1, "Number of vtable entries to ignore for indexing:");
-
+	skipAmt = AskLong(0, "Number of vtable entries to ignore for indexing:");
+	auto dumpasVirtualFuncs = AskYN(0, "Format as C++ virtual method definitions.");
+	
 	// Request output header file
 	SetStatus(IDA_STATUS_WAITING);
 	if ((szFilePath = AskFile(1, "*.txt", "Select output dump file:")) == 0)
-	{		
+	{
 		Message("Aborted.");
 		SetStatus(IDA_STATUS_READY);
 		return;
@@ -82,7 +83,21 @@ static main()
 				Warning("You must toggle GCC v3.x demangled names!\n");
 				break;
 			}
-			fprintf(hFile, "%d\t%s\n", iIndex, szFullName);
+			if (!dumpasVirtualFuncs)
+			{
+				fprintf(hFile, "%d\t%s\n", iIndex, szFullName);
+			}
+			else
+			{
+				if (strstr(szFullName, "sub_") != -1)
+				{
+					fprintf(hFile, "virtual void Unk_%d(); // %d %s\n", iIndex, iIndex, szFullName);
+				}
+				else
+				{
+					fprintf(hFile, "virtual void %s(); // %d\n", szFullName, iIndex);
+				}
+			}
 						
 			pAddress = pAddress + 8;
 			iIndex++;
