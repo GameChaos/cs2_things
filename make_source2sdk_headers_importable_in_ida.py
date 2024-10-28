@@ -5,6 +5,8 @@ import os
 # put this script in sdk/include
 # put source2gen.hpp in sdk/include/source2sdk
 # run this script at your own risk
+# in ida: File > Load File > Parse C Header File and select source2sdk_supermegaheader.h
+# as of time of writing 16 classes fail to load due to missing types.
 
 with open("source2sdk_supermegaheader.h", 'w') as list_file:
 	list_file.write("#include <string_view>\n")
